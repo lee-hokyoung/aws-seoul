@@ -1,0 +1,131 @@
+<html>
+<head>
+    <% include ./include/header.ejs %>
+    <link rel="stylesheet" media="screen" href="../static/css/ninja-slider.css" />
+    <script src="../static/js/ninja-slider.js"></script>
+</head>
+<body>
+<% include ./include/nav.ejs %>
+
+<div id="section" class="facets wide-t125">
+    <div id="ninja-img"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-9">
+                <div class="detail_title_wrap">
+                    <h3 name="title"></h3>
+                    <h3 name="count"></h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 phone-images">
+                <a name="pic">
+                    <img name="pic" src=""/>
+                </a>
+            </div>
+            <div class="col-md-9 detail_body">
+                <div id="body_top"></div>
+                <div id="body_link">
+                    <hr>
+                    <div id="link_list"></div>
+                    <div id="detail_table"></div>
+                    <div id="lod_table"></div>
+                </div>
+                <div id="body_problem"></div>
+                <div id="body_bottom"></div>
+                <div id="body_table">
+                    <div class="row" id="table_search_wrap">
+                        <div class="col-md-2">
+                            <span style="height: 40px; line-height:40px;">패싯 내 재검색</span>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="" id="searchInResultData">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="btnSearchInResult">검색</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="table_wrap"></div>
+                </div>
+                <div id="player"></div>
+                <div id="map"></div>
+                <div id="body_right"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="body_onPage"></div>
+        </div>
+    </div>
+</div>
+<div style="display:none">
+    <div id="data_store" data-store="<%=data%>"></div>
+    <div id="data_collection" data-store="<%=collection%>"></div>
+    <div id="docs_data" data-store="<%=docs_data%>"></div>
+    <div id="structure" data-store="<%=structure_data%>"></div>
+</div>
+</body>
+<% include ./include/footer.ejs %>
+<script src="static/node_modules/bootstrap/js/tooltip.js"></script>
+<script src="static/node_modules/bootstrap/js/popover.js"></script>
+<script src="static/js/detail.js"></script>
+<script>
+    var lat_long = $('#data_store').data('store')['lat_long'];
+    var title = $('#data_store').data('store')['title'];
+    if(lat_long){
+        $('#map').css('height', '500px');
+        var center = lat_long.split(',');
+        console.log('title : ', title);
+        function initMap() {
+            var map, marker, myLatLng;
+            myLatLng = {lat: parseFloat(center[0]), lng: parseFloat(center[1])}
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: myLatLng,
+                zoom: 15
+            });
+            marker = new google.maps.Marker({
+                position:myLatLng,
+                map:map,
+                label:title
+            })
+        }
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQjIbDMinn0SrC15DEoNyg_nIW6iV3xiA&callback=initMap" async defer></script>
+<script>
+    var tag = document.createElement('script');
+    var youtube_id = $('#data_store').data('store')['Youtube'];
+    if(youtube_id){
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '100%',
+                videoId: youtube_id,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        function onPlayerReady(event) {
+            //event.target.playVideo();
+        }
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                //setTimeout(stopVideo, 6000);
+                //done = true;
+            }
+        }
+        function stopVideo() {
+            player.stopVideo();
+        }
+    }
+</script>
+</html>

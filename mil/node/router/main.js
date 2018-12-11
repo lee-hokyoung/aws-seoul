@@ -980,6 +980,24 @@ module.exports = function(app, fs, Schema) {
             });
         }
     });
+    /*  -----------------------------------------------------------------------------------------
+    *   admin Page 관련
+    -------------------------------------------------------------------------------------------*/
+    app.get('/admin', function(req, res){
+        res.render('admin/dashboard', {
+        });
+    });
+    app.get('/news_board', function(req, res){
+        res.render('admin/news_board', {
+        });
+    });
+    app.get('/data', function(req, res){
+        res.render('admin/data', {
+        });
+    });
+    /*  -----------------------------------------------------------------------------------------
+    *   admin Page 관련 끝
+    -------------------------------------------------------------------------------------------*/
     getFrequency();
     function getFrequency(){
         MongoClient.connect(url, {useNewUrlParser:true}, function(err, db){

@@ -1,21 +1,7 @@
-// var newsBoard = mongoose.model('news_board', newsBoardSchema);
+const _resource = 'http://mil[dot]k-history[dot]kr/resource/';
 
 module.exports = function(app, fs, Schema)
 {
-
-    app.get('/admin', function(req, res){
-        res.render('admin/dashboard', {
-        });
-    });
-    app.get('/news_board', function(req, res){
-        res.render('admin/news_board', {
-        });
-    });
-    app.get('/data', function(req, res){
-        res.render('admin/data', {
-
-        });
-    });
     app.post('/news_board/create', function(req, res){
         var board = new News_Board();
         board.title = req.body.title;

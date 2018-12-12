@@ -10,7 +10,8 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-3" id="left_facets"></div>
+                    <div class="col-md-9">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Data Control</h4>
@@ -81,6 +82,12 @@
         </div>
     </div>
 </div>
+<div style="display: none;">
+    <div id="menu" data-store="<%=JSON.stringify(menu)%>"></div>
+    <div id="left" data-store="<%=JSON.stringify(left)%>"></div>
+    <div id="facet_list" data-store="<%=JSON.stringify(facet_list)%>"></div>
+</div>
 </body>
 <%include include/footer.ejs%>
+<script src="static/js/data.js"></script>
 </html>

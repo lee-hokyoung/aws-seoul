@@ -7,8 +7,8 @@ let is_period = false;
 let in_period = false;
 let tr_idx = 0, img_list = [];
 $('#table_search_wrap').css('display', 'none');
-console.log('data : ', _data);
-console.log('docs : ', _docs);
+// console.log('data : ', _data);
+// console.log('docs : ', _docs);
 // console.log('_collection : ', _collection);
 // console.log('structure : ', _structure);
 
@@ -152,22 +152,29 @@ function createMiddle(){
 
 function createProblem(){
     if(_displayOnProblem.filter((item) => {if(_docs.hasOwnProperty(item)) return item}).length === 0) return false;
-    let html = '<p class="facet_title">문제점, 대안</p>';
+    let html = '<p class="facet_title">문제점/대안</p>';
     html += '<ul class="property">';
-    html += '<dd class="innerDesc">';
     _displayOnProblem.forEach((v) => {
-        if(_docs[v]){
-            console.log('docs v :', _docs[v]);
-            if(_docs[v].length > 0){
-                _docs[v].forEach((w) => {
-                    html += w['@value'].replace(/\[dot\]/gi, '.');
-                });
-            }else{
-                html += _docs[v]['@value'].replace(/\[\]/gi, '.');
+        try{
+            if(_docs[v]){
+                if(_docs[v].length > 0){
+                    _docs[v].sort((a, b) => {return (a['@value'] > b['@value'])?1:(a['@value'] < b['@value'])?-1:0}).forEach((w) => {
+                        html += '<dd class="innerDesc innerPr">';
+                        html += w['@value'].replace(/\[dot\]/gi, '.');
+                        html += '</dd><br/>';
+                    });
+                }else{
+                    html += '<dd class="innerDesc innerPr">';
+                    html += _docs[v]['@value'].replace(/\[\]/gi, '.');
+                    html += '</dd>';
+                }
             }
+        }catch (e) {
+            console.log('e : ', e);
         }
+
+
     });
-    html += '</dd>';
     html += '</ul>';
     $('#body_problem').html(html);
 }

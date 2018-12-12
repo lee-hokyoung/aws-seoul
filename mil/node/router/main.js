@@ -993,7 +993,15 @@ module.exports = function(app, fs, Schema) {
     });
     app.get('/data', function(req, res){
         res.render('admin/data', {
+            menu:menu,
+            left:__left,
+            facet_list:__facet_list
         });
+        // var cursor = Schema.find({}).cursor(), result = [];
+        // cursor.on('data', function(docs){result.push(docs)});
+        // cursor.on('close', function(){
+        //
+        // });
     });
     /*  -----------------------------------------------------------------------------------------
     *   admin Page 관련 끝

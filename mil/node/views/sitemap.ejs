@@ -1,0 +1,33 @@
+<html>
+<head>
+    <% include ./include/header.ejs %>
+    <link rel="stylesheet" href="static/css/sitemap.css"/>
+</head>
+<body>
+<% include ./include/nav.ejs %>
+
+<div id="section" class="facets wide-t125">
+    <div id="content">
+        <div class="container">
+            <div class="row"><div id="searchResult" class="col-md-offset-3 col-md-9"></div></div>
+            <div class="row">
+                <!-- left facets -->
+                <div class="col-md-3" id="left_facets"></div>
+                <!-- body list -->
+                <div class="col-md-9 sitemap-body" id="body_data"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display:none">
+    <div id="left" data-store="<%=JSON.stringify(left)%>"></div>
+    <div id="menu" data-store="<%=JSON.stringify(menu)%>"></div>
+    <div id="list" data-store="<%=JSON.stringify(list)%>"></div>
+    <div id="facet_list" data-store="<%=JSON.stringify(facet_list)%>"></div>
+    <div id="search" data-store="<%=searchText%>"></div>
+    <div id="type" data-store="<%=type%>"></div>
+</div>
+</body>
+<% include ./include/footer.ejs %>
+<script src="static/js/sitemap.js"></script>
+</html>

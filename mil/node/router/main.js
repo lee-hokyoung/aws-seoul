@@ -1003,6 +1003,16 @@ module.exports = function(app, fs, Schema) {
         //
         // });
     });
+    app.post('/getDataByType', function(req, res){
+        var type = req.body['type'], result = [];
+        var cursor = Schema.find({'@type':_resource + type}).cursor();
+        cursor.on('data', function(docs){result.push(docs)});
+        cursor.on('close', function(){
+            res.send({
+                result:result
+            })
+        })
+    });
     /*  -----------------------------------------------------------------------------------------
     *   admin Page 관련 끝
     -------------------------------------------------------------------------------------------*/

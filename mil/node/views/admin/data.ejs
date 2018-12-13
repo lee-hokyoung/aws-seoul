@@ -57,7 +57,7 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Update Data</h5>
@@ -65,19 +65,14 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="doc_id" class="control-label">@id:</label>
-                        <input type="text" class="form-control" id="doc_id" readonly>
+                        <label class="control-label">@id:</label>
+                        <input type="text" class="form-control border-input" id="doc_id" name="doc_id" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="doc_type" class="control-label">@type:</label>
-                        <input type="text" class="form-control" id="doc_type">
+                        <label class="control-label">@type:</label>
+                        <input type="text" class="form-control border-input" id="doc_type" name="doc_type">
                     </div>
-                    <div id="middle_space"></div>
-                    <div id="annotation_space"></div>
-                    <div id="bottom_space"></div>
-                    <div id="top_space"></div>
-                    <div id="problem_space"></div>
-                    <div id="page_space"></div>
+                    <div id="display-space"></div>
                 </form>
             </div>
             <div class="modal-footer">

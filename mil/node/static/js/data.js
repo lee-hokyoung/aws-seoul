@@ -169,8 +169,7 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
                         display_html += '</div>';
                     }
                 }catch(e){
-                    console.error(e);
-                    console.error(v);
+                    console.error(e, v);
                 }
                 // display_html += '<button type="button">데이터 추가</button>';
             });

@@ -980,6 +980,43 @@ module.exports = function(app, fs, Schema) {
             });
         }
     });
+    /*  -----------------------------------------------------------------------------------------
+    *   admin Page 관련
+    -------------------------------------------------------------------------------------------*/
+    app.get('/admin', function(req, res){
+        res.render('admin/dashboard', {
+        });
+    });
+    app.get('/news_board', function(req, res){
+        res.render('admin/news_board', {
+        });
+    });
+    app.get('/data', function(req, res){
+        res.render('admin/data', {
+            menu:menu,
+            left:__left,
+            facet_list:__facet_list,
+            collection:collection
+        });
+        // var cursor = Schema.find({}).cursor(), result = [];
+        // cursor.on('data', function(docs){result.push(docs)});
+        // cursor.on('close', function(){
+        //
+        // });
+    });
+    app.post('/getDataByType', function(req, res){
+        var type = req.body['type'], result = [];
+        var cursor = Schema.find({'@type':_resource + type}).cursor();
+        cursor.on('data', function(docs){result.push(docs)});
+        cursor.on('close', function(){
+            res.send({
+                result:result
+            })
+        })
+    });
+    /*  -----------------------------------------------------------------------------------------
+    *   admin Page 관련 끝
+    -------------------------------------------------------------------------------------------*/
     getFrequency();
     function getFrequency(){
         MongoClient.connect(url, {useNewUrlParser:true}, function(err, db){

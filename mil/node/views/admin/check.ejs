@@ -1,0 +1,43 @@
+<html>
+<head>
+    <% include header.ejs %>
+</head>
+<body>
+<% include nav.ejs %>
+<div class="container">
+    <section class="section">
+        <form name="formAdmin">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">
+                    <label for="username">username</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input id="username" type="text" class="form-control" placeholder="ID를 입력하세요" name="username"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2">
+                    <label for="password">password</label>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input id="password" type="password" class="form-control" placeholder="비밀번호를 입력하세요" name="password"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-fill btn-block" type="button" id="btn_check_admin">제출</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+</body>
+<% include footer.ejs %>
+<script src="static/js/admin.js"></script>
+</html>

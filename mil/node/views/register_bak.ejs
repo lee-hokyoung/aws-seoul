@@ -1,0 +1,125 @@
+<html>
+<head>
+    <% include ./include/header.ejs %>
+</head>
+<body>
+<div class="wrapper">
+    <div class="parallax">
+        <!--<div class="parallax-image">-->
+        <!--<img src="static/img/hyundai.png">-->
+        <!--</div>-->
+        <div class="motto">
+            <div class="form-group has-success">
+                <input id="searchText" autocomplete="off" type="text" placeholder="검색어를 입력하세요" class="form-control" />
+            </div>
+        </div>
+        <h1 style="text-align: center; margin-top:80px;">제주한라대학교</h1>
+        <h3 class="motivation">향토자료관</h3>
+    </div>
+</div>
+<% include ./include/nav.ejs %>
+
+<div id="section" class="facets">
+    <div class="container">
+        <!--  입력창 선택-->
+        <div class="section">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-1 text-left">
+                    <label for="selectTitle"><%=param%></label>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="dropdown">
+                            <button id="selectTitle" class="btn btn-primary btn-fill dropdown-toggle" type="button" data-toggle="dropdown">
+                                입력창 선택 <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <%for(var i in inputType){%>
+                                <li><a href="/register/<%=inputType[i]%>"><%=inputType[i]%></a></li>
+                                <%}%>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 입력창 선택 끝 -->
+
+        <!-- default 패싯 -->
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1 text-left">
+                <label for="<%=data['title']['name']%>"><%=data['title']['value']%></label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <%if(data['title']['type'] == 'select'){%>
+                    <div class="dropdown">
+                        <select class="form-control">
+                            <option><%=data['title']['value']%> 선택</option>
+                            <%for(var i in total['defaultFacets']){%>
+
+                            <%if(total['defaultFacets'][i]['depth'] == 2){%>
+                            <optgroup label="<%=total['defaultFacets'][i]['@value']%>">
+                                <%for(var j in total['defaultFacets'][i]['depths']){%>
+                                <option><%=total['defaultFacets'][i]['depths'][j]%></option>
+                                <%}%>
+                            </optgroup>
+                            <%}else{%>
+                            <option><%=total['defaultFacets'][i]['@value']%></option>
+                            <%}%>
+                        <%}%>
+                        </select>
+                    </div>
+                    <%}else{%>
+                    <input type="text" class="form-control" id="<%=data['title']['name']%>">
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <!-- default 패싯 끝 -->
+
+        <!-- 일반 패싯 -->
+        <%for(var i in data['facets']){%>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1 text-left">
+                <label for="<%=data['facets'][i]['name']%>"><%=data['facets'][i]['value']%></label>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <%if(data['facets'][i]['type'] == 'select'){%>
+                    <div class="dropdown">
+                        <select class="form-control">
+                            <option><%=data['facets'][i]['value']%> 선택</option>
+                            <%for(var j in total[data['facets'][i]['name']]){%>
+                            <option><%=total[data['facets'][i]['name']][j]['value']%></option>
+                            <%}%>
+                        </select>
+                    </div>
+                    <%}else if(data['facets'][i]['type'] == 'text'){%>
+                    <input type="text" class="form-control" id="<%=data['facets'][i]['name']%>"/>
+                    <%}else if(data['facets'][i]['type'] == 'file'){%>
+                    <input type="file" class="form-control" id="<%=data['facets'][i]['name']%>"/>
+                    <%}else if(data['facets'][i]['type'] == 'textarea'){%>
+                    <textarea id="<%=data['facets'][i]['name']%>" name="<%=data['facets'][i]['name']%>" class="form-control"></textarea>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+        <%}%>
+        <!-- 일반 패싯 끝 -->
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $('#description').summernote({
+        lang:'ko-KR',
+        height:300,
+        placeholder:'내용을 입력하세요...'
+    });
+    $('#eng').summernote({
+        lang:'ko-KR',
+        height:300,
+        placeholder:'내용을 입력하세요...'
+    });
+</script>
+</html>

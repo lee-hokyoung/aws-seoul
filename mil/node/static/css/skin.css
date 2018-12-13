@@ -1,0 +1,236 @@
+.fix-top{
+    position: fixed;
+    top:0px;
+    z-index: 1000;
+    left:50%;
+    width: 1140px;
+    margin-left:-570px;
+}
+.title-image{
+
+    width: 500px;
+    position: absolute;
+    z-index: 1050;
+    margin-top: 0px;
+    left: 200px;
+}
+.back-text-wrap{
+    background-image: url('../img/header_text.png');
+    -webkit-background-size: cover;
+    background-size: 600px;
+    background-repeat: no-repeat;
+    background-position: 150px 20px;
+    padding-top: 70px;
+}
+.back_text{
+    background-image: url('../img/header_text.png');
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+.motto{
+    background-image: url('../img/header_back.png');
+    -webkit-background-size: cover;
+    background-size: cover;
+    /* padding-top:80px; */
+}
+.nav-con{
+    position: relative;
+    z-index: 1100;
+    padding: 0;
+    background-color: rgba(51, 87, 103, 1);
+}
+.ul_wrap{
+    display: flex;
+    justify-content: center;
+}
+.ul_wrap ul li{
+    color: #fff;
+    font-weight: normal;
+    cursor: pointer;
+}
+.ul_wrap ul li:hover{
+    background-color: rgba(157,161,100,1);
+    color: #fff;
+}
+.extra-menu-top-wrap{
+    font-size: 14px;
+    padding: 5px;
+}
+.extra-menu-top-wrap a{
+    color: #111;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0px 10px;
+}
+.dropdown-menu{
+    background-color: rgba(51, 87, 103, 1);
+}
+.footer_back{
+    background-image: url('../img/footer_back.png');
+    -webkit-background-size: cover;
+    background-size: cover;
+    /* margin-bottom:-20px; */
+    height: 313px;
+    padding-top: 20px;
+    width: 1140px;
+}
+.footer_back img{
+    width: 100%;
+}
+.notice-table-wrap{
+    /* height:200px; */
+    margin: 0px 0px 60px 50px;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+.news-table table tr td{
+    font-size: 12px;
+    text-align: left;
+    font-weight: normal;
+    padding: 2px 5px 2px 20px;
+}
+.news-title{
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 15px;
+}
+.news-title span{
+    font-size: 17px;
+}
+.news-title button{
+    font-size: 10px;
+    border: none;
+    padding: 3px;
+}
+.news-table .table{
+    margin: 10px 0px;
+}
+.news-table table tr{
+    border-top-style: hidden;
+}
+.news-table table tr td:first-child{
+    cursor: pointer;
+}
+.news-table table tr td:last-child{
+    color:darkgoldenrod;
+}
+#body_data{padding-right: 30px;}
+
+
+
+/* carousel CSS */
+
+.carousel-inner img{
+    width: 90px;
+    float: left;
+    margin: 10px 0px 10px 35px;
+}
+.carousel-inner p{
+
+    text-align: center;
+
+    font-size: 12px;
+}
+
+.carousel-showmanymoveone .carousel-control {
+    width: 4%;
+    background-image: none;
+}
+.carousel-showmanymoveone .carousel-control.left {
+    margin-left: 15px;
+}
+.carousel-showmanymoveone .carousel-control.right {
+    margin-right: 15px;
+}
+.carousel-showmanymoveone .cloneditem-1,
+.carousel-showmanymoveone .cloneditem-2,
+.carousel-showmanymoveone .cloneditem-3 {
+    display: none;
+}
+@media all and (min-width: 768px) {
+    .carousel-showmanymoveone .carousel-inner > .active.left,
+    .carousel-showmanymoveone .carousel-inner > .prev {
+        left: -50%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .active.right,
+    .carousel-showmanymoveone .carousel-inner > .next {
+        left: 50%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .left,
+    .carousel-showmanymoveone .carousel-inner > .prev.right,
+    .carousel-showmanymoveone .carousel-inner > .active {
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner .cloneditem-1 {
+        display: block;
+    }
+}
+@media all and (min-width: 768px) and (transform-3d), all and (min-width: 768px) and (-webkit-transform-3d) {
+    .carousel-showmanymoveone .carousel-inner > .item.active.right,
+    .carousel-showmanymoveone .carousel-inner > .item.next {
+        -webkit-transform: translate3d(50%, 0, 0);
+        transform: translate3d(50%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.active.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev {
+        -webkit-transform: translate3d(-50%, 0, 0);
+        transform: translate3d(-50%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev.right,
+    .carousel-showmanymoveone .carousel-inner > .item.active {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        left: 0;
+    }
+}
+@media all and (min-width: 992px) {
+    .carousel-showmanymoveone .carousel-inner > .active.left,
+    .carousel-showmanymoveone .carousel-inner > .prev {
+        left: -25%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .active.right,
+    .carousel-showmanymoveone .carousel-inner > .next {
+        left: 25%;
+    }
+    .carousel-showmanymoveone .carousel-inner > .left,
+    .carousel-showmanymoveone .carousel-inner > .prev.right,
+    .carousel-showmanymoveone .carousel-inner > .active {
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner .cloneditem-2,
+    .carousel-showmanymoveone .carousel-inner .cloneditem-3 {
+        display: block;
+    }
+}
+@media all and (min-width: 992px) and (transform-3d), all and (min-width: 992px) and (-webkit-transform-3d) {
+    .carousel-showmanymoveone .carousel-inner > .item.active.right,
+    .carousel-showmanymoveone .carousel-inner > .item.next {
+        -webkit-transform: translate3d(25%, 0, 0);
+        transform: translate3d(25%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.active.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev {
+        -webkit-transform: translate3d(-25%, 0, 0);
+        transform: translate3d(-25%, 0, 0);
+        left: 0;
+    }
+    .carousel-showmanymoveone .carousel-inner > .item.left,
+    .carousel-showmanymoveone .carousel-inner > .item.prev.right,
+    .carousel-showmanymoveone .carousel-inner > .item.active {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        left: 0;
+    }
+}
+@media only screen and (min-width: 768px) {
+    .logo {
+        margin: 28px;
+        float: left;
+    }
+}
+/* carousel CSS END */

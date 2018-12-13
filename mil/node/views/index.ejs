@@ -1,0 +1,74 @@
+<html>
+<head>
+    <% include ./include/header.ejs %>
+</head>
+<body>
+<% include ./include/nav.ejs %>
+
+<div id="section" class="facets wide-t125">
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <!-- left facets -->
+                <div class="col-md-3" id="left_facets"></div>
+                <!-- body list -->
+                <div class="col-md-9">
+                    <div class="row mt20 ">
+                        <div class="col-md-2">
+                            <span style="height: 40px; line-height:40px;">패싯 내 재검색</span>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="" id="searchInResultData">
+                                <span class="input-group-btn">
+                                    <button class="btn" type="button" id="btnSearchInResult">검색</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 align-right" id="page_selector">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-custom">
+                                    <input type="radio" name="options" id="p10" autocomplete="off"> 10
+                                </label>
+                                <label class="btn btn-custom">
+                                    <input type="radio" name="options" id="p20" autocomplete="off" checked> 20
+                                </label>
+                                <label class="btn btn-custom">
+                                    <input type="radio" name="options" id="p30" autocomplete="off"> 30
+                                </label>
+                                <label class="btn btn-custom">
+                                    <input type="radio" name="options" id="p50" autocomplete="off"> 50
+                                </label>
+                                <label class="btn btn-custom">
+                                    <input type="radio" name="options" id="p100" autocomplete="off"> 100
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="body_data"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- page 부분 -->
+            <div class="row">
+                <div class="col-md-offset-3 col-md-9" id="pagination">
+                </div>
+            </div>
+            <!-- page 부분 끝 -->
+        </div>
+    </div>
+</div>
+<div style="display:none">
+    <div id="body_store" data-store="<%=body%>"></div>
+    <div id="data_left" data-store="<%=left_store%>"></div>
+    <div id="left_store" data-store="<%=left%>"></div>
+    <div id="left_menu" data-store="<%=left_menu%>"></div>
+    <div id="sub_class" data-store="<%=sub_class%>"></div>
+    <div id="subProductList" data-store="<%=subProductList%>"></div>
+    <div id="facet_count_list" data-store="<%=facet_count_list%>"></div>
+</div>
+</body>
+<% include ./include/footer.ejs %>
+<script src="static/js/index.js"></script>
+</html>

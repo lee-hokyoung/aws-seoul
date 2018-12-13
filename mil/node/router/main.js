@@ -995,7 +995,8 @@ module.exports = function(app, fs, Schema) {
         res.render('admin/data', {
             menu:menu,
             left:__left,
-            facet_list:__facet_list
+            facet_list:__facet_list,
+            collection:collection
         });
         // var cursor = Schema.find({}).cursor(), result = [];
         // cursor.on('data', function(docs){result.push(docs)});

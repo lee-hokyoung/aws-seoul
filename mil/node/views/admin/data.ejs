@@ -47,29 +47,62 @@
         </div>
     </div>
 </div>
-<div class="modal fade bd-example-modal-lg" data-backdrop="static" data-keyboard="false" tabindex="-1">
+<div class="modal fade bd-loading" data-backdrop="static" data-keyboard="false" tabindex="-1">
     <div class="modal-dialog modal-sm">
         <div class="modal-content" style="width: 48px">
             <span class="fa fa-spinner fa-spin fa-3x"></span>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Data</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="doc_id" class="control-label">@id:</label>
+                        <input type="text" class="form-control" id="doc_id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="doc_type" class="control-label">@type:</label>
+                        <input type="text" class="form-control" id="doc_type">
+                    </div>
+                    <div id="middle_space"></div>
+                    <div id="annotation_space"></div>
+                    <div id="bottom_space"></div>
+                    <div id="top_space"></div>
+                    <div id="problem_space"></div>
+                    <div id="page_space"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <style>
-    .bd-example-modal-lg .modal-dialog{
+    .bd-loading .modal-dialog{
         display: table;
         position: relative;
         margin: 0 auto;
         top: calc(50% - 24px);
     }
 
-    .bd-example-modal-lg .modal-dialog .modal-content{
+    .bd-loading .modal-dialog .modal-content{
         background-color: transparent;
         border: none;
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
         box-shadow: none;
     }
-    .bd-example-modal-lg .modal-dialog .modal-content span{
+    .bd-loading .modal-dialog .modal-content span{
         width:100%
     }
 </style>
@@ -77,6 +110,7 @@
     <div id="menu" data-store="<%=JSON.stringify(menu)%>"></div>
     <div id="left" data-store="<%=JSON.stringify(left)%>"></div>
     <div id="facet_list" data-store="<%=JSON.stringify(facet_list)%>"></div>
+    <div id="collection" data-store="<%=JSON.stringify(collection)%>"></div>
 </div>
 </body>
 <%include include/footer.ejs%>

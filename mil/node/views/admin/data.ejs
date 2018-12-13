@@ -10,65 +10,31 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-2" id="left_facets"></div>
+                    <div class="col-md-10">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Data Control</h4>
-                                <p class="category">자료관리</p>
+                                <p class="category">카테고리</p>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input name="search" type="text" class="form-control" id="search" placeholder="Search..." />
+                                </div>
                             </div>
                             <div class="content table-responsive table-full-width">
                                 <table class="table table-striped">
                                     <thead>
-                                    <th>ID</th>
-                                    <th>작성자</th>
-                                    <th>제목</th>
-                                    <th>작성일</th>
-                                    <th>City</th>
+                                    <tr class="row">
+                                        <th class="col-sm-1 text-center">#</th>
+                                        <th class="col-sm-2 text-center">Id</th>
+                                        <th class="col-sm-1 text-center">Type</th>
+                                        <th class="col-sm-2 text-center">Label</th>
+                                        <th class="co-sml-4 text-center">Description</th>
+                                        <th class="col-sm-2 text-center">Update/Delete</th>
+                                    </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                    </tr>
-                                    </tbody>
+                                    <tbody id="tbody"></tbody>
                                 </table>
                             </div>
                         </div>
@@ -81,6 +47,72 @@
         </div>
     </div>
 </div>
+<div class="modal fade bd-loading" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Data</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="doc_id" class="control-label">@id:</label>
+                        <input type="text" class="form-control" id="doc_id" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="doc_type" class="control-label">@type:</label>
+                        <input type="text" class="form-control" id="doc_type">
+                    </div>
+                    <div id="middle_space"></div>
+                    <div id="annotation_space"></div>
+                    <div id="bottom_space"></div>
+                    <div id="top_space"></div>
+                    <div id="problem_space"></div>
+                    <div id="page_space"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .bd-loading .modal-dialog{
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(50% - 24px);
+    }
+
+    .bd-loading .modal-dialog .modal-content{
+        background-color: transparent;
+        border: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+    .bd-loading .modal-dialog .modal-content span{
+        width:100%
+    }
+</style>
+<div style="display: none;">
+    <div id="menu" data-store="<%=JSON.stringify(menu)%>"></div>
+    <div id="left" data-store="<%=JSON.stringify(left)%>"></div>
+    <div id="facet_list" data-store="<%=JSON.stringify(facet_list)%>"></div>
+    <div id="collection" data-store="<%=JSON.stringify(collection)%>"></div>
+</div>
 </body>
 <%include include/footer.ejs%>
+<script src="static/js/data.js"></script>
 </html>

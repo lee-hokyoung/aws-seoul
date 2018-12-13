@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    if(location.pathname !== '/') return false;
     var footer = '<div class="container">' +
         '<div class="footer_back">' +
         '<div class="row">' +
@@ -21,7 +22,7 @@ $(document).ready(function(){
     function fnGenNoticeBoard(){
         var html = '';
         var list = [
-            {idx:1, title:'홈페이지 개편 안내 및 점검 공지', date:'2018.10.31'},
+            {idx:1, title:'홈페이지 개편 안내 및 점검 공지', date:'2018.10.31', link:'/resource/president_01222'},
             {idx:2, title:'육군디지털아카이브 개편 안내', date:'2018.10.31'},
             {idx:3, title:'추천자료 안내', date:'2018.10.31'},
             {idx:4, title:'디지털아카이브 시스템 안내', date:'2018.10.31'}
@@ -45,11 +46,11 @@ $(document).ready(function(){
     /* 추천 기록자료 만들기 */
     function fnGenRecommendData(){
         var list = [
-            {idx:1, img_url:'../static/img/facet_menu1.gif', title:'전투요도', link:'/'},
-            {idx:2, img_url:'../static/img/facet_menu2.gif', title:'낙동강지구 역사자료', link:'/'},
-            {idx:3, img_url:'../static/img/facet_menu3.gif', title:'지평리전투', link:'/'},
-            {idx:4, img_url:'../static/img/facet_menu4.gif', title:'기록물관리 종합 발전 계획', link:'/'},
-            {idx:5, img_url:'../static/img/facet_menu5.gif', title:'추천기록 자료 리스트', link:'/'}
+            {idx:1, img_url:'../static/img/001.jpg', title:'동원전력사령부 부대표지', link:'/resource/president_01222'},
+            {idx:2, img_url:'../static/img/004.jpg', title:'19년장병인성바로세우기', link:'/resource/president_01221'},
+            {idx:3, img_url:'../static/img/008.jpg', title:'인사현안업무보고', link:'/resource/president_01124'},
+            {idx:4, img_url:'../static/img/010.jpg', title:'수도군단 수방사 신병양성', link:'/resource/collection_00034'},
+            {idx:5, img_url:'../static/img/014.jpg', title:'미래전쟁을 위한 지적준비', link:'/resource/overseas_00014'}
         ];
         var html = '<div class="recommend-wrap">';
         html += '<p>+추천 기록자료</p>';

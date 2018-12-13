@@ -1,6 +1,3 @@
-// const _label = 'http://www[dot]w3[dot]org/2000/01/rdf-schema#label';
-// const _resource = 'http://mil[dot]k-history[dot]kr/resource/';
-// const _description = 'http://purl[dot]org/dc/elements/1[dot]1/description';
 var _left = $('#left').data('store');
 var $list = $('#list').data('store');
 var $menu = $('#menu').data('store');
@@ -14,14 +11,18 @@ console.log('list : ', $list);
 var post = {list:[]};
 if(type === 'post'){
     $list.forEach(function(v){
-        if(v['@type'].length > 0 && typeof(v['@type']) === 'object'){
-            v['@type'].forEach(function(w){
-                post[w.replace(_resource, '')] = 1 + (post[w.replace(_resource, '')] || 0);
-                post.list.push(w);
-            });
-        }else{
-            post[v['@type'].replace(_resource, '')] = 1 + (post[v['@type'].replace(_resource, '')] || 0);
-            post.list.push(v);
+        try{
+            if(v['@type'].length > 0 && typeof(v['@type']) === 'object'){
+                v['@type'].forEach(function(w){
+                    post[w.replace(_resource, '')] = 1 + (post[w.replace(_resource, '')] || 0);
+                    post.list.push(w);
+                });
+            }else{
+                post[v['@type'].replace(_resource, '')] = 1 + (post[v['@type'].replace(_resource, '')] || 0);
+                post.list.push(v);
+            }
+        }catch (e) {
+            console.log('error : ', e, ' , v : ', v);
         }
     });
     $list = [];
@@ -34,7 +35,7 @@ console.log('menu : ', $menu);
 // console.log('list : ', $list);
 // console.log('facet_list : ', $facet_list);
 // site map에서만 핵심 키워드 추가(메뉴에는 없으므로 리스트 표시가 안 되는 문제)
-$menu['mongo_12'] = {label:'핵심키워드'}
+$menu['mongo_12'] = {label:'핵심키워드'};
 var $left = {};
 $list.forEach(function(v){
     if(v !== null) $left[v['_id']] = v['count'];

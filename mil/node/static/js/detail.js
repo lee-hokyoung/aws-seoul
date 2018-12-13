@@ -7,8 +7,8 @@ let is_period = false;
 let in_period = false;
 let tr_idx = 0, img_list = [];
 $('#table_search_wrap').css('display', 'none');
-console.log('data : ', _data);
-console.log('docs : ', _docs);
+// console.log('data : ', _data);
+// console.log('docs : ', _docs);
 // console.log('_collection : ', _collection);
 // console.log('structure : ', _structure);
 
@@ -19,6 +19,7 @@ let _displayOnTable = _collection[_resource + 'displayOnTable']['@list'].map(fun
 let _displayOnRight = _collection[_resource + 'displayOnTop']['@list'].map(function(item){return item['@id']});
 let _bottomList = _displayOnBottom.map(function(item){return item.replace(_resource, '').replace(/\[dot\]/gi, '.')});
 let _displayOnPage = _collection[_resource + 'displayOnPage']['@list'].map(function(item){return item['@id']});
+let _displayOnProblem = _collection[_resource + 'displayOnProblem']['@list'].map((item)=>{return item['@id']});
 let docs_id = _docs['@id'].replace(_resource, '');
 
 let _search_list = [
@@ -56,6 +57,10 @@ function createPage(){
     *   연계정보(ex. 향토자료_주제)
     *   -------------------------------------------------------------------------*/
     createMiddle();
+    /*  -------------------------------------------------------------------------
+    *   문제점, 대안
+    * ---------------------------------------------------------------------------*/
+    createProblem();
     /*  -------------------------------------------------------------------------
     *   속성정보
     *   -------------------------------------------------------------------------*/
@@ -143,6 +148,35 @@ function createMiddle(){
         html += '<hr>';
         $('#link_list').append(html);
     }
+}
+
+function createProblem(){
+    if(_displayOnProblem.filter((item) => {if(_docs.hasOwnProperty(item)) return item}).length === 0) return false;
+    let html = '<p class="facet_title">문제점/대안</p>';
+    html += '<ul class="property">';
+    _displayOnProblem.forEach((v) => {
+        try{
+            if(_docs[v]){
+                if(_docs[v].length > 0){
+                    _docs[v].sort((a, b) => {return (a['@value'] > b['@value'])?1:(a['@value'] < b['@value'])?-1:0}).forEach((w) => {
+                        html += '<dd class="innerDesc innerPr">';
+                        html += w['@value'].replace(/\[dot\]/gi, '.');
+                        html += '</dd><br/>';
+                    });
+                }else{
+                    html += '<dd class="innerDesc innerPr">';
+                    html += _docs[v]['@value'].replace(/\[\]/gi, '.');
+                    html += '</dd>';
+                }
+            }
+        }catch (e) {
+            console.log('e : ', e);
+        }
+
+
+    });
+    html += '</ul>';
+    $('#body_problem').html(html);
 }
 function createBottom(){
     if(_displayOnBottom.filter(function(item){if(_docs.hasOwnProperty(item)) return item}).length > 0){

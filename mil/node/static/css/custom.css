@@ -185,3 +185,5 @@ span[role=status] div:last-child{
 .facet_count_wrap .count:nth-child(5){top: 237px;margin-left: 240px;}
 .facet_count_wrap .count:nth-child(6){top: 249px;margin-left: 347px;}
 .facet_count_wrap .count:nth-child(7){top: 175px; margin-left: 400px;}
+
+.innerPr{}

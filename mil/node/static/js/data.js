@@ -81,7 +81,6 @@ $("#search").on("keyup", function() {
 });
 $('#modalUpdate').on('show.bs.modal', (e) => {
     let id = e.relatedTarget.dataset.store;
-    let middle_html = '', annotation_html = '', bottom_html = '', top_html = '', problem_html = '', page_html ='';
     let display_html = '', val;
     $.ajax({
         type:'get',

@@ -181,5 +181,4 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
 });
 function fnAddElement(btn){
     console.log(btn.parentNode.parentNode.childNodes);
-
 }

@@ -77,7 +77,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" id="btn_update">Save changes</button>
             </div>
         </div>
     </div>
@@ -100,6 +100,7 @@
     .bd-loading .modal-dialog .modal-content span{
         width:100%
     }
+    .input-group span{border:1px solid #CCC5B9}
 </style>
 <div style="display: none;">
     <div id="menu" data-store="<%=JSON.stringify(menu)%>"></div>

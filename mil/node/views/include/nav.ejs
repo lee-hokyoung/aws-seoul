@@ -1,0 +1,102 @@
+<div class="wrapper fix-top">
+    <div class="parallax wide-top">
+        <div class="motto">
+            <div class="back-text-wrap">
+            <!--<div class="container">-->
+                <div class="row">
+                    <div class="col-md-4 col-xs-12">
+                        <a href="/"><img src="../static/img/title.png"/></a>
+                    </div>
+                    <div class="col-md-7 col-xs-12">
+                        <input id="searchText" autocomplete="off" type="text" placeholder="검색어를 입력하세요" class="form-control" />
+                        <div class="hot_facet_wrap">
+                            <!--<% var list = [{'title':'육본_작전지시_제11호','id':'육본_작전지시_제11호'}, {'title':'4차_산업혁명과_군수업무의_만남','id':'4차_산업혁명과_군수업무의_만남'}, {'title':'드론봇', 'id':'드론봇'}, {'title':'정일권', 'id':'정일권'}, {'title':'낙동강', 'id':'낙동강'}, {'title':'게임체인저', 'id':'게임체인저'}]%>-->
+                            <% for(var idx in searchList){ if(idx < 5){%>
+                            <a onclick="fnPostParam('<%=searchList[idx]._id%>')"><%=searchList[idx]['_id']%></a>
+                            <%}else false;}%>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-md-offset-9 extra-menu-top-wrap">
+                        <a href="/intro/item_1">인사말</a>
+                        <a href="/intro/item_2">사용설명서</a>
+                    </div>
+                </div>
+            </div>
+            <!--</div>-->
+        </div>
+    </div>
+    <div class="nav-con">
+        <div class="row">
+            <nav class="navbar mar_bot_0" role="navigation">
+                <div class="navbar-header">
+                    <button id="menu-toggle" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="true">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse wide-nav" id="navbar-menu">
+                    <div class="ul_wrap">
+                        <ul class="nav navbar-nav dropdown">
+                            <% for(var key in menu){ %>
+                            <%if(menu[key].subClass){%>
+                            <li class="dropdown" style="padding:5px;">
+                                <button type="button" class="btn btn-light" data-toggle="dropdown">
+                                    <%= menu[key].label %>
+                                    <b class="caret"></b>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <button type="button" class="btn btn-light" onclick="location.href='<%=menu[key].baseUrl%>'">
+                                            전체
+                                        </button>
+                                    </li>
+                                    <!--Object.keys(menu[key].subClass[sub_key])-->
+                                    <li class="divider"></li>
+                                    <%for(var sub_key in menu[key].subClass){%>
+                                    <%if(typeof(menu[key].subClass[sub_key]) === 'object'){%>
+                                    <li class="divider"></li>
+                                    <li role="presentation" class="dropdown-header mil_header"><%= Object.keys(menu[key].subClass[sub_key])%></li>
+                                    <%for(var sub2_key in menu[key].subClass[sub_key]){%>
+                                    <%for(var i=0; i < menu[key].subClass[sub_key][sub2_key].length; i++ ){%>
+                                    <li style="margin-left:10px;">
+                                        <button type="button" class="btn btn-light" onclick="location.href='<%=menu[key].baseUrl%>/<%=Object.keys(menu[key].subClass[sub_key])%>/<%=menu[key].subClass[sub_key][sub2_key][i]%>'">
+                                            <%= menu[key].subClass[sub_key][sub2_key][i] %>
+                                        </button>
+                                    </li>
+                                    <%}}%>
+                                    <li class="divider"></li>
+                                    <%}else{%>
+                                    <li>
+                                        <button type="button" class="btn btn-light" onclick="location.href='<%=menu[key].baseUrl%>/<%=menu[key].subClass[sub_key]%>'">
+                                            <%= menu[key].subClass[sub_key] %>
+                                        </button>
+                                    </li>
+                                    <%}%>
+                                    <%}%>
+                                </ul>
+                            </li>
+                            <%}else{%>
+                            <li style="padding:5px;">
+                                <button type="button" class="btn btn-light" onclick="location.href='<%=menu[key].baseUrl%>'">
+                                    <%= menu[key].label %>
+                                </button>
+                            </li>
+                            <% } %>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<div id="searchList" style="display:none" data-store="<%=JSON.stringify(searchList)%>"></div>
+<script>
+    function fnPostParam(val){
+        var params = {};
+        params["@searchable"] = val;
+        postFormToUri(params,"/sitemap");
+    }
+</script>

@@ -1,0 +1,25 @@
+<html>
+<head>
+    <% include ./include/header.ejs %>
+</head>
+<body>
+    <% include ./include/nav.ejs %>
+    <div id="section" class="facets wide-t125">
+        <div class="container" style="margin-bottom:-20px;">
+            <div class="facet_count_wrap">
+                <%for(var i in data){%>
+                <span class="count"><%=data[i]['count']%></span>
+                <%}%>
+            </div>
+            <video autoplay muted id="myVideo" style="width:100%;">
+                <source src="../static/video/main.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div style="display:none">
+            <div id="total" data-store="<%=total%>"></div>
+        </div>
+    </div>
+</body>
+<% include ./include/footer.ejs %>
+<script src="../static/js/home.js"></script>
+</html>

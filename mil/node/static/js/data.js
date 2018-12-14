@@ -2,6 +2,10 @@ let $left = $('#left').data('store');
 let $facet_list = $('#facet_list').data('store');
 let $menu = $('#menu').data('store');
 let $collection = $('#collection').data('store');
+let $display = ['displayOnBottom', 'displayOnMiddle', 'displayOnPage', 'displayOnProblem', 'displayOnTop'].map((v) => {
+    return $collection[_resource+v]['@list'];
+}).reduce((a, b) => {return a.concat(b)});
+
 
 $menu['mongo_12'] = {label:'핵심키워드'};
 init();
@@ -78,6 +82,7 @@ $("#search").on("keyup", function() {
 $('#modalUpdate').on('show.bs.modal', (e) => {
     let id = e.relatedTarget.dataset.store;
     let middle_html = '', annotation_html = '', bottom_html = '', top_html = '', problem_html = '', page_html ='';
+    let display_html = '', val;
     $.ajax({
         type:'get',
         url:'getIdData/' + id,
@@ -88,8 +93,8 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
             $('#doc_type').val(res['@type'].replace(/\[dot\]/gi, '.'));
             if(res.hasOwnProperty(_label)){
                 try{
-                    top_html += '<div class="form-group">';
-                    top_html += '<label for="doc_label" class="control-label">Label:</label>';
+                    display_html += '<div class="form-group">';
+                    display_html += '<label class="control-label">Label:</label>';
                     let val = '';
                     if(res[_label].length > 0 && typeof(res[_label]) === 'object'){
                         res[_label].forEach((w, j) => {
@@ -99,150 +104,82 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
                     }else{
                         val = res[_label].hasOwnProperty('@value')?res[_label]['@value']:res[_label];
                     }
-                    top_html += '<textarea class="form-control" id="doc_label">' + val.replace(/\[dot\]/gi, '.').replace(/<br>/g, '&#10;') + '</textarea>';
-                    top_html += '</div>';
+                    display_html += '<input type="text" class="form-control border-input" name="' + _label + '" value="' + val.replace(/\[dot\]/gi, '.') + '">';
+                    display_html += '</div>';
                 }catch (e) {
                     console.log(e);
                 }
             }
-            $collection[_resource + 'displayOnMiddle']['@list'].forEach((v, i) => {
-                if(res.hasOwnProperty(v['@id'])){
-                    try{
-                        middle_html += '<div class="form-group">';
-                        middle_html += '<label class="control-label">' + v['@id'].replace(_resource, "") + ':</label>';
-                        let val = '';
-                        if(res[v['@id']].length > 0 && typeof(res[v['@id']]) === 'object'){
-                            res[v['@id']].forEach((w, j) => {
-                                // val += w['@id'];
-                                // if((res[v['@id']].length - 1) > j) val += '&#10;';
-                                middle_html += '<input type="text" class="form-control" name="' + v['@id'] + '" value="' + w['@id'].replace(/\[dot\]/gi, '.') +'"><br>';
+            if(res.hasOwnProperty(_description)){
+                try{
+                    display_html += '<div class="form-group">';
+                    display_html += '<label for="doc_description" class="control-label">설명:</label>';
+                    let val = '';
+                    if(res[_description].length > 0 && typeof(res[_description]) === 'object'){
+                        res[_description].forEach((w, j) => {
+                            val += w['@value'];
+                            if((res[_description].length - 1) > j) val += '&#10;';
+                        });
+                    }else{
+                        val = res[_description].hasOwnProperty('@value')?res[_description]['@value']:res[_description];
+                    }
+                    display_html += '<textarea class="form-control border-input" name="' + _description + '" rows="5">' + val.replace(/\[dot\]/gi, '.').replace(/<br>/g, '&#10;') + '</textarea>';
+                    display_html += '</div>';
+                }catch (e) {
+                    console.log(e);
+                }
+            }
+            $display.forEach((v)=>{
+                try{
+                    if(res.hasOwnProperty(v['@id'])){
+                        display_html += '<div class="form-group">';
+                        display_html += '<label class="control-label">' + v['@id'].replace(_resource, '') + ':</label>';
+                        if(typeof(res[v['@id']]) === 'object' && res[v['@id']].length > 0){
+                            res[v['@id']].forEach((w) => {
+                                if(w.hasOwnProperty('@value')) {
+                                    val = w['@value'];
+                                    display_html += '<textarea class="form-control border-input" name="' + v['@id'] + '">' + val + '</textarea>';
+                                }
+                                else if(w.hasOwnProperty('@id')) {
+                                    val = w['@id'];
+                                    display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
+                                }
+                                else {
+                                    val = w;
+                                    display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
+                                }
+                                display_html += '<br>';
                             });
                         }else{
-                            val = res[v['@id']]['@id'];
-                            middle_html += '<input type="text" class="form-control" name="' + v['@id'] + '" value="' + val.replace(/\[dot\]/gi, '.') +'">';
+                            if(res[v['@id']].hasOwnProperty('@value')) {
+                                val = res[v['@id']]['@value'];
+                                display_html += '<textarea class="form-control border-input" name="' + v['@id'] + '">' + val + '</textarea>';
+                            }
+                            else if(res[v['@id']].hasOwnProperty('@id')) {
+                                val = res[v['@id']]['@id'];
+                                display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
+                            }
+                            else {
+                                val = res[v['@id']];
+                                display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
+                            }
+                            display_html += '<br>';
                         }
-                        middle_html += '</div>';
-                    }catch (e) {
-                        console.log(e, v);
+                        display_html += '<div class="row text-center"><button type="button" class="btn btn-info" onclick="fnAddElement(this)">데이터 추가</button></div>';
+                        display_html += '</div>';
                     }
+                }catch(e){
+                    console.error(e);
+                    console.error(v);
                 }
+                // display_html += '<button type="button">데이터 추가</button>';
             });
-            $collection[_resource + 'displayOnAnnotation']['@list'].forEach((v, i) => {
-                if(res.hasOwnProperty(v['@id'])){
-                    try{
-                        annotation_html += '<div class="form-group">';
-                        annotation_html += '<label for="doc_' + i + '" class="control-label">' + v['@id'].replace(_resource, "").replace(_description, '설명') + ':</label>';
-                        let val = '';
-                        if(res[v['@id']].length > 0 && typeof(res[v['@id']]) === 'object'){
-                            res[v['@id']].forEach((w, j) => {
-                                val += w['@id'];
-                                if((res[v['@value']].length - 1) > j) val += '&#10;';
-                            });
-                        }else{
-                            val = res[v['@id']].hasOwnProperty('@value')?res[v['@id']]['@value']:res[v['@id']];
-                        }
-                        annotation_html += '<textarea class="form-control" id="doc_' + i + '">' + val.replace(/\[dot\]/gi, '.').replace(/<br>/g, '&#10;') + '</textarea>';
-                        annotation_html += '</div>';
-                    }catch (e) {
-                        console.log(e, v);
-                    }
-                }
-            });
-            $collection[_resource + 'displayOnTop']['@list'].forEach((v, i) => {
-                if(res.hasOwnProperty(v['@id'])){
-                    try{
-                        top_html += '<div class="form-group">';
-                        top_html += '<label for="doc_' + i + '" class="control-label">' + v['@id'].replace(_resource, "").replace(_description, '설명') + ':</label>';
-                        let val = '';
-                        if(res[v['@id']].length > 0 && typeof(res[v['@id']]) === 'object'){
-                            res[v['@id']].forEach((w, j) => {
-                                val += w['@id'];
-                                if((res[v['@value']].length - 1) > j) val += '&#10;';
-                            });
-                        }else{
-                            val = res[v['@id']].hasOwnProperty('@value')?res[v['@id']]['@value']:res[v['@id']];
-                        }
-                        top_html += '<textarea class="form-control" id="doc_' + i + '">' + val.replace(/\[dot\]/gi, '.').replace(/<br>/g, '&#10;') + '</textarea>';
-                        top_html += '</div>';
-                    }catch (e) {
-                        console.log(e, v);
-                    }
-                }
-            });
-            $collection[_resource + 'displayOnBottom']['@list'].forEach((v, i) => {
-                if(res.hasOwnProperty(v['@id'])){
-                    try{
-                        bottom_html += '<div class="form-group">';
-                        bottom_html += '<label for="doc_' + i + '" class="control-label">' + v['@id'].replace(_resource, "").replace(_description, '설명') + ':</label>';
-                        let val = '';
-                        if(res[v['@id']].length > 0 && typeof(res[v['@id']]) === 'object'){
-                            res[v['@id']].forEach((w, j) => {
-                                val += w['@id'];
-                                if((res[v['@value']].length - 1) > j) val += '&#10;';
-                            });
-                        }else{
-                            val = res[v['@id']].hasOwnProperty('@value')?res[v['@id']]['@value']:res[v['@id']];
-                        }
-                        bottom_html += '<textarea class="form-control" id="doc_' + i + '">' + val.replace(/\[dot\]/gi, '.').replace(/<br>/g, '&#10;') + '</textarea>';
-                        bottom_html += '</div>';
-                    }catch (e) {
-                        console.log(e, v);
-                    }
-                }
-            });
-            $collection[_resource + 'displayOnProblem']['@list'].forEach((v, i) => {
-                if(res.hasOwnProperty(v['@id'])){
-                    try{
-                        problem_html += '<div class="form-group">';
-                        problem_html += '<label for="doc_' + i + '" class="control-label">' + v['@id'].replace(_resource, "") + ':</label>';
-                        let val = '';
-                        if(res[v['@id']].length > 0 && typeof(res[v['@id']]) === 'object'){
-                            res[v['@id']].forEach((w, j) => {
-                                // val += w['@value'];
-                                // if((res[v['@id']].length - 1) > j) {
-                                    // val += '&#10;';
-                                    problem_html += '<textarea class="form-control" id="doc_' + i + '_' + j + '">' + w['@value'].replace(/\[dot\]/gi, '.') + '</textarea><br>';
-                                // }
-                            });
-                        }else{
-                            val = res[v['@id']].hasOwnProperty('@value')?res[v['@id']]['@value']:res[v['@id']];
-                            problem_html += '<textarea class="form-control" id="doc_' + i + '">' + val.replace(/\[dot\]/gi, '.') + '</textarea>';
-                        }
-                        // problem_html += '<textarea class="form-control" id="doc_' + i + '">' + val.replace(/\[dot\]/gi, '.') + '</textarea>';
-                        problem_html += '</div>';
-                    }catch (e) {
-                        console.log(e, v);
-                    }
-                }
-            });
-            $collection[_resource + 'displayOnPage']['@list'].forEach((v, i) => {
-                if(res.hasOwnProperty(v['@id'])){
-                    try{
-                        page_html += '<div class="form-group">';
-                        page_html += '<label for="doc_' + i + '" class="control-label">' + v['@id'].replace(_resource, "").replace(_description, '설명') + ':</label>';
-                        let val = '';
-                        if(res[v['@id']].length > 0 && typeof(res[v['@id']]) === 'object'){
-                            res[v['@id']].forEach((w, j) => {
-                                val += w['@value'];
-                                if((res[v['@id']].length - 1) > j) val += '&#10;';
-                            });
-                        }else{
-                            val = res[v['@id']].hasOwnProperty('@value')?res[v['@id']]['@value']:res[v['@id']];
-                        }
-                        page_html += '<textarea class="form-control" id="doc_' + i + '">' + val.replace(/\[dot\]/gi, '.').replace(/<br>/g, '&#10;') + '</textarea>';
-                        page_html += '</div>';
-                    }catch (e) {
-                        console.log(e, v);
-                    }
-                }
-            });
-            $('#middle_space').html(middle_html);
-            $('#annotation_space').html(annotation_html);
-            $('#bottom_space').html(bottom_html);
-            $('#top_space').html(top_html);
-            $('#problem_space').html(problem_html);
-            $('#page_space').html(page_html);
+            $('#display-space').html(display_html.replace(/\[dot\]/g, '.'));
         },
         error:function(err){console.error(err)}
     });
 });
+function fnAddElement(btn){
+    console.log(btn.parentNode.parentNode.childNodes);
+
+}

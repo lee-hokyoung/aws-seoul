@@ -1,0 +1,80 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <title>제주한라대학 향토자료관</title>
+    <base href="http://jeju.k-history.kr">
+    <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="http://jeju.k-history.kr/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" media="screen" href="static/bootstrap3/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css"/>
+    <!--<link rel="stylesheet" href="static/assets/css/gsdk.css"/>-->
+    <link rel="stylesheet" media="screen" href="static/css/jeju.css" />
+    <link rel="stylesheet" media="screen" href="static/css/register.css" />
+</head>
+<body>
+<div class="wrapper">
+    <div class="parallax">
+        <div class="motto">
+            <div class="container">
+                <div class="row">
+                    <div class="has-success">
+                        <div class="col-md-3 col-xs-12 main-logo">
+                            <a href="/"><img src="../static/img/cheju_logo.gif"/></a>
+                        </div>
+                        <div class="col-md-9 col-xs-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-transparent navbar-border" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button id="menu-toggle" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar bar1"></span>
+                <span class="icon-bar bar2"></span>
+                <span class="icon-bar bar3"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            <ul class="nav navbar-nav">
+                <% for(var key in menu){ %>
+                <li style="padding:5px;">
+                    <button type="button" class="btn btn-light" onclick="location.href='<%=menu[key].baseUrl%>'">
+                        <%= menu[key].label %>
+                    </button>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="section" class="facets">
+    <div class="container">
+        <form name="formRegister">
+
+            <!-- 일반 패싯 -->
+            <div id="normal_facet"></div>
+            <!-- 일반 패싯 끝 -->
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <button type="button" name="register_btn" class="btn btn-primary btn-lg btn-block">수정하기</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div style="display:none">
+    <div id="total_store" data-store="<%=JSON.stringify(total)%>"></div>
+    <div id="parent" data-store="<%=parent%>"></div>
+    <div id="item" data-store="<%=update_item%>"></div>
+</div>
+</body>
+<script src="static/node_modules/jquery/dist/jquery.min.js"></script>
+<script src="static/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="static/js/update.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+</html>

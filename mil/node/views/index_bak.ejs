@@ -1,0 +1,179 @@
+<html>
+<head>
+    <% include ./include/header.ejs %>
+</head>
+<body>
+<div class="wrapper">
+    <div class="parallax">
+        <!--<div class="parallax-image">-->
+        <!--<img src="static/img/hyundai.png">-->
+        <!--</div>-->
+        <div class="motto">
+            <div class="form-group has-success">
+                <input id="searchText" autocomplete="off" type="text" placeholder="검색어를 입력하세요" class="form-control" />
+            </div>
+        </div>
+        <h1 style="text-align: center; margin-top:80px;">제주한라대학교</h1>
+        <h3 class="motivation">향토자료관</h3>
+    </div>
+</div>
+<% include ./include/nav.ejs %>
+
+<div id="section" class="facets">
+    <div id="content" style="padding-left: 10px; padding-right: 10px;">
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- left facets -->
+                <div class="col-md-3">
+                    <% for(var i in left){ %>
+                    <div class="panel panel-default panel-primary" style="margin-top:10px;">
+                        <div class="panel-heading" style="height: 35px;">
+                            <%=left[i]['value'] %>
+                        </div>
+                        <div class="panel-body" style="height: 200px; overflow-x:hidden; overflow-y: auto;">
+                            <ul class="classTree">
+                            <% for(var j in left[i]['new_items']) {
+                                if(left[i]['new_items'][j]['badge'] > 0){
+                                %>
+                                <li>
+                                    <div class="listDiv1">
+                                        <span class="class-icon"></span>
+                                        <a href="">
+                                            <%=left[i]['new_items'][j]['value'] %> (<%=left[i]['new_items'][j]['badge']%>)
+                                        </a>
+                                    </div>
+                                </li>
+                                <%}%>
+                            <%}%>
+                            </ul>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+                <!-- left facets 끝 -->
+
+                <!-- body list -->
+                <div class="col-md-9">
+                    <%for(var i in sub_cate){%>
+                    <ul class="phone">
+                        <h2>
+                            <code>
+                                <a href="resource/<%=sub_cate[i]['values']%>"><%=sub_cate[i]['values']%></a>
+                            </code>
+                            <span class="badge"></span>
+                        </h2>
+                        <li class="thumbnail phone-listin g">
+                            <a href="resource/%>" class="thumb">
+                                <img src="">
+                            </a>
+                            <a href="resource/"></a>
+                            <p style="height:70px; overflow-y:scroll"></p>
+                        </li>
+                    </ul>
+                    <%}%>
+                    <!-- 하위 카테고리 끝 -->
+                    <% for(var i in []){%>
+                        <% for(var j = 0; j < body[i]['size']; j++){%>
+                        <ul class="phone">
+                            <%if(j == 0){%>
+                            <h2>
+                                <code>
+                                    <a href="resource/<%=body[i]['title_name']%>"><%=body[i]['title_name']%></a>
+                                </code>
+                                <span class="badge"><%=body[i]['size']%></span>
+                            </h2>
+                            <%}%>
+                            <li class="thumbnail phone-listin g">
+                                <%if(body[i]['img'][j] != ''){%>
+                                <a href="resource/<%=body[i]['href'][j]%>" class="thumb">
+                                    <img src="<%=body[i]['img'][j]%>">
+                                </a>
+                                <%}%>
+                                <a href="resource/<%=body[i]['href'][j]%>"><%=body[i]['value'][j]%></a>
+                                <p style="height:70px; overflow-y:scroll"><%=body[i]['desc'][j]%></p>
+                            </li>
+                        </ul>
+                        <%}%>
+                    <%}%>
+                    <% for(var i in body){%>
+                        <% if(body[i]['size'] > 0){%>
+                        <ul class="phone">
+                            <h2>
+                                <code>
+                                    <a href="resource/<%=param%>"><%=body[i]['title']%></a>
+                                </code>
+                                <span class="badge"><%=body[i]['size']%></span>
+                            </h2>
+                            <%for(var j in body[i]['label']){%>
+                            <li class="thumbnail phone-listing">
+                                <%if(body[i]['img'][j] != ''){%>
+                                <a href="<%=body[i]['id']%>" class="thumb">
+                                    <img src="<%=body[i]['img'][j]%>">
+                                </a>
+                                <%}%>
+                                <a href="<%=body[i]['id']%>"><%=body[i]['label'][j]%></a>
+                                <p style="height:70px; overflow-y:scroll"><%=body[i]['desc'][j]%></p>
+                            </li>
+                            <%}%>
+                        </ul>
+                        <%}%>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display:none">
+    <div id="data_store" data-store="<%=store%>"></div>
+</div>
+</body>
+<script>
+    $(document).ready(function(){
+        $('div.listDiv1 a').click(function(e){
+            e.preventDefault();
+            console.log(this);
+        });
+        // store 데이터에 idx 매기기
+        var data = $('#data_store').data('store');
+        var idx = 1;
+        var docs = [];
+        console.log(data);
+
+//        repeatStore = function(i, cb){
+//            i++;
+//            if(i === data.length){
+//                cb();
+//            }else{
+//                list['idx'] = idx++;
+//                list['desc'] = data[i];
+//                list['img'] = data[i];
+//                list['label'] = data[i];
+//                docs.push(list);
+//                repeatStore(i, cb);
+//            }
+//        };
+//        repeatStore(-1, function(){
+//            console.log(docs);
+//        });
+
+        data.forEach(function(v, i){
+            console.log(v, i);
+            if(v['desc'].length){
+                v['desc'].forEach(function(w, j){
+                    var list = {};
+//                    console.log(w, j);
+                    list['title'] = v['title']
+                    list['idx'] = idx++;
+                    list['desc'] = w;
+                    list['img'] = v['img'][j];
+                    list['label'] = v['label'][j];
+                    docs.push(list);
+                });
+            }
+        });
+        console.log(docs);
+    });
+</script>
+<% include ./include/footer.ejs %>
+</html>

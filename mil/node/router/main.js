@@ -14,6 +14,7 @@ const _objectProperty = 'http://www[dot]w3[dot]org/2002/07/owl#ObjectProperty';
 const _datatypeProperty = 'http://www[dot]w3[dot]org/2002/07/owl#DatatypeProperty';
 const _default_title = '기록물건';
 const Promise = require('promise');
+const NoticeSchema = require('../model/notice');
 
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/';
@@ -983,26 +984,23 @@ module.exports = function(app, fs, Schema) {
     /*  -----------------------------------------------------------------------------------------
     *   admin Page 관련
     -------------------------------------------------------------------------------------------*/
-    app.get('/admin', function(req, res){
+    app.get('/admin', (req, res) =>{
         res.render('admin/dashboard', {
         });
     });
-    app.get('/admin/news_board', function(req, res){
-        MongoClient.connect(url, {useNewUrlParser:true}, function(err, db){
-            if(err) throw err;
-            var dbo = db.db('Khistory'), list = [];
-            var cursor = dbo.collection('mil_notice_board').find();
-            cursor.on('data', (docs) => {
-                list.push(docs);
-            });
-            cursor.on('close', function(){
-                res.render('admin/news_board', {
-                    list:list
-                });
+    app.get('/admin/news_board', (req, res) =>{
+        var cursor = NoticeSchema.find({}).cursor(), list = [];
+        cursor.on('data', (docs) => {
+            list.push(docs);
+        });
+        cursor.on('close', () =>{
+            console.log('list : ', list);
+            res.render('admin/news_board', {
+                list:list
             });
         });
     });
-    app.get('/admin/data', function(req, res){
+    app.get('/admin/data', (req, res) =>{
         res.render('admin/data', {
             menu:menu,
             left:__left,
@@ -1010,12 +1008,19 @@ module.exports = function(app, fs, Schema) {
             collection:collection
         });
     });
-    app.get('/admin/write', function(req, res){
+    app.get('/admin/write', (req, res) =>{
         res.render('admin/write', {
 
         });
     });
-    app.post('/getDataByType', function(req, res){
+    app.post('/admin/notice/insert', (req, res) =>{
+        const newNoticeObj = new NoticeSchema(req.body);
+        newNoticeObj.save(function(err){
+            if(err) return res.status(500).send(err);
+            return res.status(200).send(newNoticeObj);
+        });
+    });
+    app.post('/getDataByType', (req, res) =>{
         var type = req.body['type'], result = [];
         var cursor = Schema.find({'@type':_resource + type}).cursor();
         cursor.on('data', function(docs){result.push(docs)});

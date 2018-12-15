@@ -44,8 +44,8 @@ $app.use(function(req, res, next){
 const Jeju = require('./model/jeju');
 const router = require('./router/main')($app, fs, Jeju);
 
-const News_Board = require('./model/news_board');
-const news_board = require('./router/admin')($app, fs, Jeju);
+// const News_Board = require('./model/news_board');
+// const news_board = require('./router/admin')($app, fs, Jeju);
 
 $app.listen(8106);
 console.log('node js server started with mongo. port number is 8106');

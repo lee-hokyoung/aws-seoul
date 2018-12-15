@@ -987,22 +987,33 @@ module.exports = function(app, fs, Schema) {
         res.render('admin/dashboard', {
         });
     });
-    app.get('/news_board', function(req, res){
-        res.render('admin/news_board', {
+    app.get('/admin/news_board', function(req, res){
+        MongoClient.connect(url, {useNewUrlParser:true}, function(err, db){
+            if(err) throw err;
+            var dbo = db.db('Khistory'), list = [];
+            var cursor = dbo.collection('mil_notice_board').find();
+            cursor.on('data', (docs) => {
+                list.push(docs);
+            });
+            cursor.on('close', function(){
+                res.render('admin/news_board', {
+                    list:list
+                });
+            });
         });
     });
-    app.get('/data', function(req, res){
+    app.get('/admin/data', function(req, res){
         res.render('admin/data', {
             menu:menu,
             left:__left,
             facet_list:__facet_list,
             collection:collection
         });
-        // var cursor = Schema.find({}).cursor(), result = [];
-        // cursor.on('data', function(docs){result.push(docs)});
-        // cursor.on('close', function(){
-        //
-        // });
+    });
+    app.get('/admin/write', function(req, res){
+        res.render('admin/write', {
+
+        });
     });
     app.post('/getDataByType', function(req, res){
         var type = req.body['type'], result = [];

@@ -17,60 +17,22 @@
                                 <p class="category">공지사항</p>
                             </div>
                             <div class="content table-responsive table-full-width">
-                                <% for(var i = 0; i < list.length; i++){ %>
-                                <div><%=list[i].item%></div>
-                                <%}%>
                                 <table class="table table-striped">
                                     <thead>
-                                    <th>ID</th>
-                                    <th>작성자</th>
+                                    <th>#</th>
                                     <th>제목</th>
-                                    <th>작성일</th>
-                                    <th>City</th>
+                                    <th>작성자</th>
+                                    <th>작성시간</th>
                                     </thead>
                                     <tbody>
+                                    <%for(var i = 0; i < list.length; i++){%>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Dakota Rice</td>
-                                        <td>$36,738</td>
-                                        <td>Niger</td>
-                                        <td>Oud-Turnhout</td>
+                                        <td><%=(i+1)%></td>
+                                        <td><%=list[i].title%></td>
+                                        <td><%=list[i].author%></td>
+                                        <td><%=list[i].published_date%></td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Minerva Hooper</td>
-                                        <td>$23,789</td>
-                                        <td>Curaçao</td>
-                                        <td>Sinaai-Waas</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Sage Rodriguez</td>
-                                        <td>$56,142</td>
-                                        <td>Netherlands</td>
-                                        <td>Baileux</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Philip Chaney</td>
-                                        <td>$38,735</td>
-                                        <td>Korea, South</td>
-                                        <td>Overland Park</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Doris Greene</td>
-                                        <td>$63,542</td>
-                                        <td>Malawi</td>
-                                        <td>Feldkirchen in Kärnten</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Mason Porter</td>
-                                        <td>$78,615</td>
-                                        <td>Chile</td>
-                                        <td>Gloucester</td>
-                                    </tr>
+                                    <%}%>
                                     </tbody>
                                 </table>
                             </div>
@@ -78,12 +40,44 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-info btn-fill btn-wd">새 글 등록</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInsert">새 글 등록</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Insert New Notice</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label">제목:</label>
+                        <input type="text" class="form-control border-input" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">작성자:</label>
+                        <input type="text" class="form-control border-input" name="author">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">내용:</label>
+                        <textarea class="form-control border-input" name="content" rows="10"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="98i">Close</button>
+                <button type="button" class="btn btn-primary" id="btn_update">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 </body>
 <%include include/footer.ejs%>
+<script src="static/js/news_board.js"></script>
 </html>

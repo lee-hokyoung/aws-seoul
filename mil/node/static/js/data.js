@@ -173,7 +173,7 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
                                 display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + $d + '" value="' + val + '">';
                             }
                             display_html += '</div>';
-                            display_html += '<br>';
+                            // display_html += '<br>';
                         }
                         display_html += '<div class="row text-center"><button type="button" class="btn btn-info" onclick="fnAddElement(this)"><i class="fa fa-plus"></i></button></div>';
                         display_html += '</div>';
@@ -196,12 +196,19 @@ function fnAddElement(btn){
 }
 $('#btn_update').on('click', (btn) => {
     console.log('btn : ', btn);
-    let formData = $('form').serializeArray(), list = {};
+    let formData = $('form').serializeArray(), list = {}, temp_key = '';
     console.log('form data : ', formData);
 
-    formData.forEach((v) => {
+    formData.forEach((v, i) => {
         let $split = v.name.split($d), $val = v.value.replace(/\./g, '[dot]'), obj = {};
         let $key = $split[0].replace(/\./g, '[dot]');
+        console.log($key, list[$key]);
+        if(temp_key !== $key) temp_key = $key;
+        else if((temp_key === $key) && (typeof(list[$key]) === 'string' || (typeof(list[$key]) === 'object' && (list[$key].hasOwnProperty('@id') || list[$key].hasOwnProperty('@value'))))){
+            let temp_val = list[$key];
+            list[$key] = [];
+            list[$key].push(temp_val);
+        }
         if(list.hasOwnProperty($split[0])){
             if($split.length === 2){
                 obj[$split[1]] = $val;
@@ -212,9 +219,9 @@ $('#btn_update').on('click', (btn) => {
         }else{
             if($split.length === 2){
                 obj[$split[1]] = $val;
-                list[$key] = [obj];
+                list[$key] = obj;
             }else{
-                list[$key] = [v.value];
+                list[$key] = v.value;
             }
         }
     });

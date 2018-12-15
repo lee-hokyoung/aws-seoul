@@ -5,6 +5,8 @@ let $collection = $('#collection').data('store');
 let $display = ['displayOnBottom', 'displayOnMiddle', 'displayOnPage', 'displayOnProblem', 'displayOnTop'].map((v) => {
     return $collection[_resource+v]['@list'];
 }).reduce((a, b) => {return a.concat(b)});
+let _doc, old_doc;
+let $d = '$$';
 
 
 $menu['mongo_12'] = {label:'핵심키워드'};
@@ -88,6 +90,7 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
         dataType:'json',
         success:function(res){
             console.log('res : ', res);
+            _doc = res, old_doc = res;
             $('#doc_id').val(res['@id'].replace(/\[dot\]/gi, '.'));
             $('#doc_type').val(res['@type'].replace(/\[dot\]/gi, '.'));
             if(res.hasOwnProperty(_label)){
@@ -135,36 +138,44 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
                         display_html += '<label class="control-label">' + v['@id'].replace(_resource, '') + ':</label>';
                         if(typeof(res[v['@id']]) === 'object' && res[v['@id']].length > 0){
                             res[v['@id']].forEach((w) => {
+                                display_html += '<div class="input-group">';
                                 if(w.hasOwnProperty('@value')) {
                                     val = w['@value'];
-                                    display_html += '<textarea class="form-control border-input" name="' + v['@id'] + '">' + val + '</textarea>';
-                                }
-                                else if(w.hasOwnProperty('@id')) {
+                                    display_html += '<span class="input-group-addon alert-success">@value</span>';
+                                    display_html += '<textarea class="form-control border-input" name="' + v['@id'] + $d + '@value">' + val + '</textarea>';
+                                } else if(w.hasOwnProperty('@id')) {
                                     val = w['@id'];
-                                    display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
-                                }
-                                else {
+                                    display_html += '<span class="input-group-addon alert-success">@id</span>';
+                                    display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + $d + '@id" value="' + val + '">';
+                                } else {
                                     val = w;
-                                    display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
+                                    display_html += '<span class="input-group-addon alert-success">@id</span>';
+                                    display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + $d + '" value="' + val + '">';
                                 }
+                                display_html += '</div>';
                                 display_html += '<br>';
                             });
                         }else{
+                            display_html += '<div class="input-group">';
                             if(res[v['@id']].hasOwnProperty('@value')) {
                                 val = res[v['@id']]['@value'];
-                                display_html += '<textarea class="form-control border-input" name="' + v['@id'] + '">' + val + '</textarea>';
+                                display_html += '<span class="input-group-addon alert-success">@value</span>';
+                                display_html += '<textarea class="form-control border-input" name="' + v['@id'] + $d + '@value">' + val + '</textarea>';
                             }
                             else if(res[v['@id']].hasOwnProperty('@id')) {
                                 val = res[v['@id']]['@id'];
-                                display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
+                                display_html += '<span class="input-group-addon alert-success">@id</span>';
+                                display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + $d + '@id" value="' + val + '">';
                             }
                             else {
                                 val = res[v['@id']];
-                                display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + '" value="' + val + '">';
+                                display_html += '<span class="input-group-addon alert-success">@id</span>';
+                                display_html += '<input type="text" class="form-control border-input" name="' + v['@id'] + $d + '" value="' + val + '">';
                             }
+                            display_html += '</div>';
                             display_html += '<br>';
                         }
-                        display_html += '<div class="row text-center"><button type="button" class="btn btn-info" onclick="fnAddElement(this)">데이터 추가</button></div>';
+                        display_html += '<div class="row text-center"><button type="button" class="btn btn-info" onclick="fnAddElement(this)"><i class="fa fa-plus"></i></button></div>';
                         display_html += '</div>';
                     }
                 }catch(e){
@@ -178,5 +189,34 @@ $('#modalUpdate').on('show.bs.modal', (e) => {
     });
 });
 function fnAddElement(btn){
-    console.log(btn.parentNode.parentNode.childNodes);
+    let childNode = btn.parentNode.parentNode.childNodes;
+    childNode.forEach((c) => {
+
+    });
 }
+$('#btn_update').on('click', (btn) => {
+    console.log('btn : ', btn);
+    let formData = $('form').serializeArray(), list = {};
+    console.log('form data : ', formData);
+
+    formData.forEach((v) => {
+        let $split = v.name.split($d), $val = v.value.replace(/\./g, '[dot]'), obj = {};
+        let $key = $split[0].replace(/\./g, '[dot]');
+        if(list.hasOwnProperty($split[0])){
+            if($split.length === 2){
+                obj[$split[1]] = $val;
+                list[$key].push(obj);
+            }else{
+                list[$key].push($val);
+            }
+        }else{
+            if($split.length === 2){
+                obj[$split[1]] = $val;
+                list[$key] = [obj];
+            }else{
+                list[$key] = [v.value];
+            }
+        }
+    });
+    console.log('list : ', list);
+});

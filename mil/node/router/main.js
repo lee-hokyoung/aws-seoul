@@ -15,6 +15,8 @@ const _datatypeProperty = 'http://www[dot]w3[dot]org/2002/07/owl#DatatypePropert
 const _default_title = '기록물건';
 const Promise = require('promise');
 const NoticeSchema = require('../model/notice');
+const moment = require('moment');
+require('moment/locale/ko');
 
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/';
@@ -989,12 +991,11 @@ module.exports = function(app, fs, Schema) {
         });
     });
     app.get('/admin/news_board', (req, res) =>{
-        var cursor = NoticeSchema.find({}).cursor(), list = [];
+        var cursor = NoticeSchema.find({}).sort({isoDate:'desc'}).cursor(), list = [];
         cursor.on('data', (docs) => {
             list.push(docs);
         });
         cursor.on('close', () =>{
-            console.log('list : ', list);
             res.render('admin/news_board', {
                 list:list
             });
@@ -1014,11 +1015,25 @@ module.exports = function(app, fs, Schema) {
         });
     });
     app.post('/admin/notice/insert', (req, res) =>{
-        const newNoticeObj = new NoticeSchema(req.body);
+        const newNoticeObj = new NoticeSchema({
+            title:req.body.title,
+            author:req.body.author,
+            content:req.body.content,
+            published_date:moment().format('LLLL')
+        });
         newNoticeObj.save(function(err){
             if(err) return res.status(500).send(err);
             return res.status(200).send(newNoticeObj);
         });
+    });
+    app.post('/admin/notice/read', (req, res) => {
+        var cursor = NoticeSchema.find({_id:req.body._id}).cursor(), result;
+        cursor.on('data', (docs) => {
+            result = docs;
+        });
+        cursor.on('close', () => {
+            res.send(result);
+        })
     });
     app.post('/getDataByType', (req, res) =>{
         var type = req.body['type'], result = [];

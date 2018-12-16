@@ -28,7 +28,7 @@
                                     <%for(var i = 0; i < list.length; i++){%>
                                     <tr>
                                         <td><%=(i+1)%></td>
-                                        <td><%=list[i].title%></td>
+                                        <td><a style="cursor: pointer;" onclick="fnGetContentById('<%=list[i]._id%>')"><%=list[i].title%></a></td>
                                         <td><%=list[i].author%></td>
                                         <td><%=list[i].published_date%></td>
                                     </tr>
@@ -71,13 +71,71 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="98i">Close</button>
-                <button type="button" class="btn btn-primary" id="btn_update">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn_close">닫기</button>
+                <button type="button" class="btn btn-primary" id="btn_insert">작성완료</button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalRead" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">공지사항</h5>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label class="control-label">제목:</label>
+                        <input type="text" class="form-control border-input" name="read_title">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">작성자:</label>
+                        <input type="text" class="form-control border-input" name="read_author">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">내용:</label>
+                        <textarea class="form-control border-input" name="read_content" rows="10"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" id="btn_update">수정하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-loading" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
 </body>
+<style>
+    .bd-loading .modal-dialog{
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(50% - 24px);
+    }
+
+    .bd-loading .modal-dialog .modal-content{
+        background-color: transparent;
+        border: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+    .bd-loading .modal-dialog .modal-content span{
+        width:100%
+    }
+    .input-group span{border:1px solid #CCC5B9}
+</style>
 <%include include/footer.ejs%>
 <script src="static/js/news_board.js"></script>
 </html>

@@ -1035,6 +1035,23 @@ module.exports = function(app, fs, Schema) {
             res.send(result);
         })
     });
+    app.post('/admin/notice/update', (req, res) => {
+        NoticeSchema.updateOne({_id:req.body._id}, {$set:{title:req.body.title,author:req.body.author, content:req.body.content}}).then((docs) => {
+            res.send(docs);
+        });
+    });
+    app.post('/admin/notice/delete', (req, res) => {
+        NoticeSchema.deleteOne({_id:req.body._id}).then((docs) => {
+            res.send(docs);
+        });
+        // var cursor = NoticeSchema.deleteOne({_id:req.body._id}).cursor(), result;
+        // cursor.on('data', (docs) => {
+        //     result = docs;
+        // });
+        // cursor.on('close', () => {
+        //     res.send(result);
+        // });
+    });
     app.post('/getDataByType', (req, res) =>{
         var type = req.body['type'], result = [];
         var cursor = Schema.find({'@type':_resource + type}).cursor();

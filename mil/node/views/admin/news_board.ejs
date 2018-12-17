@@ -55,7 +55,7 @@
                 <h5 class="modal-title" id="exampleModalLongTitle">Insert New Notice</h5>
             </div>
             <div class="modal-body">
-                <form>
+                <form name="form_create">
                     <div class="form-group">
                         <label class="control-label">제목:</label>
                         <input type="text" class="form-control border-input" name="title">
@@ -86,23 +86,24 @@
                 <h5 class="modal-title">공지사항</h5>
             </div>
             <div class="modal-body">
-                <form>
+                <form name="form_read">
                     <div class="form-group">
                         <label class="control-label">제목:</label>
-                        <input type="text" class="form-control border-input" name="read_title">
+                        <input type="text" class="form-control border-input" name="title">
                     </div>
                     <div class="form-group">
                         <label class="control-label">작성자:</label>
-                        <input type="text" class="form-control border-input" name="read_author">
+                        <input type="text" class="form-control border-input" name="author">
                     </div>
                     <div class="form-group">
                         <label class="control-label">내용:</label>
-                        <textarea class="form-control border-input" name="read_content" rows="10"></textarea>
+                        <textarea class="form-control border-input" name="content" rows="10"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-danger" id="btn_remove">삭제하기</button>
                 <button type="button" class="btn btn-primary" id="btn_update">수정하기</button>
             </div>
         </div>

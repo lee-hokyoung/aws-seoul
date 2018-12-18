@@ -1,0 +1,44 @@
+<html>
+<head>
+    <% include include/header.ejs %>
+</head>
+<body>
+<div class="wrapper">
+    <% include include/sidebar.ejs%>
+    <div class="main-panel">
+        <% include include/nav.ejs%>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">관리자 로그인</h4>
+                            </div>
+                            <form name="login_form">
+                                <div class="content">
+                                    <div class="form-group">
+                                        <label class="control-label">ID</label>
+                                        <input type="text" class="form-control border-input" name="id">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">PWD</label>
+                                        <input type="password" class="form-control border-input" name="pwd">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary" id="btn_login">로그인</button>
+                                </div>
+                            </form>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<%include include/footer.ejs%>
+<script src="static/js/admin.js"></script>
+</html>

@@ -115,31 +115,17 @@ function createMiddle(){
         let html = '<p class="facet_title">연계정보</p><div class="link_wrap">';
         _list.forEach(function(v){
             if(_docs.hasOwnProperty(v)) {
-                if(v === _resource + '다른소장처'){
-                    if(_docs[v].length > 0){
-                        _docs[v].forEach(function(w , j){
-                            html += '<div class="link_row">';
-                            html += '<span>' + ((j === 0)?v.replace(_resource, ''):'') + '</span>';
-                            html += '<dd><a href="' + w['@value'].replace(/\[dot\]/gi, '.') + '" target="_blank">' + (w['@value'].indexOf('제주민속촌') > -1?'제주민속촌':'제주대학교 박물관') + '</a></dd>';
-                            html += '</div>';
-                        })
-                    }else{
-                        html += '<div class="link_row">';
-                        html += '<span>다른소장처</span>';
-                        html += '<dd><a href="' + _docs[v]['@value'].replace(/\[dot\]/gi, '.') + '" target="_blank">' + (_docs[v]['@value'].indexOf('제주민속촌') > -1?'제주민속촌':'제주대학교 박물관') +'</a></dd>';
-                        html += '</div>';
-                    }
-                }else if(_docs[v].length > 0){
+                if(_docs[v].length > 0){
                     _docs[v].forEach(function(w, j){
                         html += '<div class="link_row">';
                         html += '<span>' + ((j === 0)?v.replace(_resource, ''):'') + '</span>';
-                        html += '<dd><a href="' + w['@id'].replace(/\[dot\]/gi, '.') + '">' + w['@id'].replace(_resource, '').replace(/\[dot\]/gi, '.') + '</a></dd>';
+                        html += '<dd><a href="' + w['@id'].replace(/\[dot\]/gi, '.') + '">' + (w.hasOwnProperty('@value')?w['@value']:w['@id']).replace(_resource, '').replace(/\[dot\]/gi, '.') + '</a></dd>';
                         html += '</div>';
                     });
                 }else{
                     html += '<div class="link_row">';
                     html += '<span>' + v.replace(_resource, '') + '</span>';
-                    html += '<dd><a href="' + _docs[v]['@id'].replace(/\[dot\]/gi, '.') + '">' + _docs[v]['@id'].replace(_resource, '').replace(/\[dot\]/gi, '.') + '</a></dd>';
+                    html += '<dd><a href="' + _docs[v]['@id'].replace(/\[dot\]/gi, '.') + '">' + (_docs[v].hasOwnProperty('@value')?_docs[v]['@value']:_docs[v]['@id']).replace(_resource, '').replace(/\[dot\]/gi, '.') + '</a></dd>';
                     html += '</div>';
                 }
             }

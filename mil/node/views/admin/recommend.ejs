@@ -20,19 +20,19 @@
                                 <table class="table table-striped">
                                     <thead>
                                     <tr class="row">
-                                        <th class="col-sm-1 text-center">#</th>
-                                        <th class="col-sm-5 text-center">제목</th>
-                                        <th class="col-sm-3 text-center">이미지 파일명</th>
-                                        <th class="col-sm-3 text-center">링크</th>
+                                        <th class="col-sm-1">#</th>
+                                        <th class="col-sm-5">제목</th>
+                                        <th class="col-sm-3">이미지 URL</th>
+                                        <th class="col-sm-3">링크 URL</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <%for(var i = 0; i < list.length; i++){%>
                                     <tr class="row">
-                                        <td class="col-sm-1 text-center"><%=(i+1)%></td>
-                                        <td class="col-sm-5 text-left"><a style="cursor: pointer;" onclick="fnGetContentById('<%=list[i]._id%>')"><%=list[i].title%></a></td>
-                                        <td class="col-sm-3 text-center"><%=list[i].img%></td>
-                                        <td class="col-sm-3 text-center"><%=list[i].link%></td>
+                                        <td class="col-sm-1"><%=(i+1)%></td>
+                                        <td class="col-sm-5"><a style="cursor: pointer;" onclick="fnGetContentById('<%=list[i]._id%>')"><%=list[i].title%></a></td>
+                                        <td class="col-sm-3"><%=list[i].img%></td>
+                                        <td class="col-sm-3"><%=list[i].link%></td>
                                     </tr>
                                     <%}%>
                                     </tbody>
@@ -63,12 +63,12 @@
                         <input type="text" class="form-control border-input" name="title">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">작성자:</label>
-                        <input type="text" class="form-control border-input" name="author">
+                        <label class="control-label">이미지 URL:</label>
+                        <input type="text" class="form-control border-input" name="img">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">내용:</label>
-                        <textarea class="form-control border-input" name="content" rows="10"></textarea>
+                        <label class="control-label">링크 URL:</label>
+                        <input type="text" class="form-control border-input" name="link">
                     </div>
                 </form>
             </div>
@@ -85,7 +85,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">공지사항</h5>
+                <h5 class="modal-title">추천 기록자료 관리</h5>
             </div>
             <div class="modal-body">
                 <form name="form_read">
@@ -94,12 +94,12 @@
                         <input type="text" class="form-control border-input" name="title">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">작성자:</label>
-                        <input type="text" class="form-control border-input" name="author">
+                        <label class="control-label">이미지 URL:</label>
+                        <input type="text" class="form-control border-input" name="img">
                     </div>
                     <div class="form-group">
-                        <label class="control-label">내용:</label>
-                        <textarea class="form-control border-input" name="content" rows="10"></textarea>
+                        <label class="control-label">링크 URL:</label>
+                        <input type="text" class="form-control border-input" name="link">
                     </div>
                 </form>
             </div>
@@ -140,5 +140,5 @@
     .input-group span{border:1px solid #CCC5B9}
 </style>
 <%include include/footer.ejs%>
-<script src="static/js/news_board.js"></script>
+<script src="static/js/recommend_board.js"></script>
 </html>

@@ -1,0 +1,144 @@
+<html>
+<head>
+    <% include include/header.ejs %>
+</head>
+<body>
+<div class="wrapper">
+    <% include include/sidebar.ejs%>
+    <div class="main-panel">
+        <% include include/nav.ejs%>
+        <div class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Recommend Data List</h4>
+                                <p class="category">추천 기록자료</p>
+                            </div>
+                            <div class="content table-responsive table-full-width">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr class="row">
+                                        <th class="col-sm-1 text-center">#</th>
+                                        <th class="col-sm-5 text-center">제목</th>
+                                        <th class="col-sm-3 text-center">이미지 파일명</th>
+                                        <th class="col-sm-3 text-center">링크</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <%for(var i = 0; i < list.length; i++){%>
+                                    <tr class="row">
+                                        <td class="col-sm-1 text-center"><%=(i+1)%></td>
+                                        <td class="col-sm-5 text-left"><a style="cursor: pointer;" onclick="fnGetContentById('<%=list[i]._id%>')"><%=list[i].title%></a></td>
+                                        <td class="col-sm-3 text-center"><%=list[i].img%></td>
+                                        <td class="col-sm-3 text-center"><%=list[i].link%></td>
+                                    </tr>
+                                    <%}%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalInsert">새 글 등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Insert New Notice</h5>
+            </div>
+            <div class="modal-body">
+                <form name="form_create">
+                    <div class="form-group">
+                        <label class="control-label">제목:</label>
+                        <input type="text" class="form-control border-input" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">작성자:</label>
+                        <input type="text" class="form-control border-input" name="author">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">내용:</label>
+                        <textarea class="form-control border-input" name="content" rows="10"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn_close">닫기</button>
+                <button type="button" class="btn btn-primary" id="btn_insert">작성완료</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalRead" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">공지사항</h5>
+            </div>
+            <div class="modal-body">
+                <form name="form_read">
+                    <div class="form-group">
+                        <label class="control-label">제목:</label>
+                        <input type="text" class="form-control border-input" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">작성자:</label>
+                        <input type="text" class="form-control border-input" name="author">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">내용:</label>
+                        <textarea class="form-control border-input" name="content" rows="10"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-danger" id="btn_remove">삭제하기</button>
+                <button type="button" class="btn btn-primary" id="btn_update">수정하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bd-loading" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+</body>
+<style>
+    .bd-loading .modal-dialog{
+        display: table;
+        position: relative;
+        margin: 0 auto;
+        top: calc(50% - 24px);
+    }
+
+    .bd-loading .modal-dialog .modal-content{
+        background-color: transparent;
+        border: none;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+    }
+    .bd-loading .modal-dialog .modal-content span{
+        width:100%
+    }
+    .input-group span{border:1px solid #CCC5B9}
+</style>
+<%include include/footer.ejs%>
+<script src="static/js/news_board.js"></script>
+</html>

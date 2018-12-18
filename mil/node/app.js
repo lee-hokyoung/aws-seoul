@@ -35,8 +35,8 @@ $app.use(session({
 }));
 
 $app.use(function(req, res, next){
-    req.session.username = 'cheju_admin';
-    req.session.userpwd = 'cheju_pwd';
+    req.session.username = 'mil_admin';
+    req.session.userpwd = 'mil_pwd';
     next();
 });
 

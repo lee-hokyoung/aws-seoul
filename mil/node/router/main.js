@@ -15,6 +15,7 @@ const _datatypeProperty = 'http://www[dot]w3[dot]org/2002/07/owl#DatatypePropert
 const _default_title = '기록물건';
 const Promise = require('promise');
 const NoticeSchema = require('../model/notice');
+const RecommendSchema = require('../model/recommend');
 const moment = require('moment');
 require('moment/locale/ko');
 
@@ -986,34 +987,79 @@ module.exports = function(app, fs, Schema) {
     /*  -----------------------------------------------------------------------------------------
     *   admin Page 관련
     -------------------------------------------------------------------------------------------*/
-    app.get('/admin', (req, res) =>{
-        res.render('admin/dashboard', {
+    app.post('/admin/check', (req, res) => {
+        if(req.session.username=== req.body.id && req.session.userpwd === req.body.pwd){
+            req.session.status = 1;
+            res.send({result:1});
+        }else{
+            res.send({result:0});
+        }
+    });
+    app.get('/admin/login', (req, res) =>{
+        res.render('admin/login', {
+            session:req.session
+        });
+    });
+    app.get('/admin/logout', (req, res) => {
+        req.session.status = 0;
+        res.render('admin/login',{
+            session:req.session
         });
     });
     app.get('/admin/news_board', (req, res) =>{
-        var cursor = NoticeSchema.find({}).sort({isoDate:'desc'}).cursor(), list = [];
-        cursor.on('data', (docs) => {
-            list.push(docs);
-        });
-        cursor.on('close', () =>{
-            res.render('admin/news_board', {
-                list:list
+        if(req.session.status === 1){
+            NoticeSchema.find({}).sort({isoDate:'desc'}).then((docs) => {
+                res.render('admin/news_board', {
+                    list:docs,
+                    session:req.session
+                });
             });
-        });
+        }else {
+            res.render('admin/login', {
+                session:req.session
+            });
+        }
     });
     app.get('/admin/data', (req, res) =>{
-        res.render('admin/data', {
-            menu:menu,
-            left:__left,
-            facet_list:__facet_list,
-            collection:collection
-        });
+        if(req.session.status === 1){
+            res.render('admin/data', {
+                menu:menu,
+                left:__left,
+                facet_list:__facet_list,
+                collection:collection,
+                session:req.session
+            });
+        }else{
+            res.render('admin/login', {
+                session:req.session
+            });
+        }
     });
     app.get('/admin/write', (req, res) =>{
-        res.render('admin/write', {
-
-        });
+        if(req.session.status === 1){
+            res.render('admin/write', {
+                session:req.session
+            });
+        }else{
+            res.render('admin/login', {
+                session:req.session
+            })
+        }
     });
+    app.get('/admin/recommend', (req, res) => {
+        if(req.session.status === 1){
+            RecommendSchema.find({}).then((docs) => {
+                res.render('admin/recommend', {
+                    list:docs,
+                    session:req.session
+                });
+            });
+        }else{
+            res.render('admin/login', {
+                session:req.session
+            })
+        }
+    })
     app.post('/admin/notice/insert', (req, res) =>{
         const newNoticeObj = new NoticeSchema({
             title:req.body.title,
@@ -1044,13 +1090,6 @@ module.exports = function(app, fs, Schema) {
         NoticeSchema.deleteOne({_id:req.body._id}).then((docs) => {
             res.send(docs);
         });
-        // var cursor = NoticeSchema.deleteOne({_id:req.body._id}).cursor(), result;
-        // cursor.on('data', (docs) => {
-        //     result = docs;
-        // });
-        // cursor.on('close', () => {
-        //     res.send(result);
-        // });
     });
     app.post('/getDataByType', (req, res) =>{
         var type = req.body['type'], result = [];

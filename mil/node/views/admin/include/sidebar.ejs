@@ -10,13 +10,7 @@
             </a>
         </div>
         <ul class="nav">
-            <li name="dashboard">
-                <a href="/admin">
-                    <i class="ti-panel"></i>
-                    <p>관리자페이지</p>
-                </a>
-            </li>
-            <li name="table">
+            <li name="notice">
                 <a href="/admin/news_board">
                     <i class="ti-view-list-alt"></i>
                     <p>공지사항</p>
@@ -28,54 +22,52 @@
                     <p>데이터 관리</p>
                 </a>
             </li>
-            <li name="write">
+            <li name="register">
                 <a href="/admin/write">
                     <i class="ti-write"></i>
                     <p>데이터 등록</p>
                 </a>
             </li>
-            <!--<li name="user">-->
-                <!--<a href="user.php">-->
-                    <!--<i class="ti-user"></i>-->
-                    <!--<p>User Profile</p>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li name="typography">-->
-                <!--<a href="typography.php">-->
-                    <!--<i class="ti-text"></i>-->
-                    <!--<p>Typography</p>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li name="icons">-->
-                <!--<a href="icons.php">-->
-                    <!--<i class="ti-pencil-alt2"></i>-->
-                    <!--<p>Icons</p>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li name="maps">-->
-                <!--<a href="maps.php">-->
-                    <!--<i class="ti-map"></i>-->
-                    <!--<p>Maps</p>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li name="notifications">-->
-                <!--<a href="notifications.php">-->
-                    <!--<i class="ti-bell"></i>-->
-                    <!--<p>Notifications</p>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li name="portfolio">-->
-                <!--<a href="portfolio.php">-->
-                    <!--<i class="ti-agenda"></i>-->
-                    <!--<p>Portfolio</p>-->
-                <!--</a>-->
-            <!--</li>-->
-            <!--<li class="active-pro">-->
-            <!--<a href="upgrade.html">-->
-            <!--<i class="ti-export"></i>-->
-            <!--<p>Upgrade to PRO</p>-->
-            <!--</a>-->
-            <!--</li>-->
+            <li name="recommend">
+                <a href="/admin/recommend">
+                    <i class="ti-clipboard"></i>
+                    <p>추천 기록자료 관리</p>
+                </a>
+            </li>
+            <li name="sign">
+                <%if(session.status === 1){%>
+                    <a href="/admin/logout">
+                        <i class="ti-user"></i>
+                        <p>로그아웃</p>
+                    </a>
+                <%}else{%>
+                    <a href="/admin/login">
+                        <i class="ti-panel"></i>
+                        <p>로그인</p>
+                    </a>
+                <%}%>
+            </li>
         </ul>
     </div>
 </div>
+<script>
+    let _path = location.pathname;
+    switch(_path){
+        case '/admin/login':
+        case '/admin/logout':
+            document.getElementsByName('sign')[0].classList.add('active');
+            break;
+        case '/admin/news_board':
+            document.getElementsByName('notice')[0].classList.add('active');
+            break;
+        case '/admin/data':
+            document.getElementsByName('data')[0].classList.add('active');
+            break;
+        case '/admin/write':
+            document.getElementsByName('register')[0].classList.add('active');
+            break;
+        case '/admin/recommend':
+            document.getElementsByName('recommend')[0].classList.add('active');
+            break;
+    }
+</script>

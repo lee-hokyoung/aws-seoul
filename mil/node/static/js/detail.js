@@ -117,13 +117,13 @@ function createMiddle(){
             if(_docs.hasOwnProperty(v)) {
                 if(_docs[v].length > 0){
                     _docs[v].forEach(function(w, j){
-                        html += '<div class="link_row">';
+                        html += '<div class="link_row link_group ' + (j === 0 ? "border-dashed":"") + '" style="' + (j===0 ? "padding-top:10px;":"") + ( j === _docs[v].length -1 ?"padding-bottom:10px":"") + '">';
                         html += '<span>' + ((j === 0)?v.replace(_resource, ''):'') + '</span>';
                         html += '<dd><a href="' + w['@id'].replace(/\[dot\]/gi, '.') + '">' + (w.hasOwnProperty('@value')?w['@value']:w['@id']).replace(_resource, '').replace(/\[dot\]/gi, '.') + '</a></dd>';
                         html += '</div>';
                     });
                 }else{
-                    html += '<div class="link_row">';
+                    html += '<div class="link_row border-dashed">';
                     html += '<span>' + v.replace(_resource, '') + '</span>';
                     html += '<dd><a href="' + _docs[v]['@id'].replace(/\[dot\]/gi, '.') + '">' + (_docs[v].hasOwnProperty('@value')?_docs[v]['@value']:_docs[v]['@id']).replace(_resource, '').replace(/\[dot\]/gi, '.') + '</a></dd>';
                     html += '</div>';

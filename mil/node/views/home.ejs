@@ -19,6 +19,65 @@
             <div id="total" data-store="<%=total%>"></div>
         </div>
     </div>
+    <footer id="footer"></footer>
+    <div class="container">
+        <div class="footer_back">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="notice-table-wrap">
+                        <div class="news-table">
+                            <div class="news-title">
+                                <span>News</span>
+                                <button>+MORE</button>
+                                </div>
+                            <table class="table">
+                                <%for(var i = 0; i< notice_list.length; i++){%>
+                                <tr data-store="<%=notice_list[i]._id%>">
+                                    <td><%=notice_list[i].title%></td>
+                                    <td><%=notice_list[i].published_date%></td>
+                                </tr>
+                                <%}%>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="data-rotate-wrap">
+                        <div class="recommend-wrap">
+                            <p>+추천 기록자료</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="carousel carousel-showmanymoveone slide" id="carouselRecommend">
+                                        <div class="carousel-inner">
+                                            <%for(var i = 0; i<recommend_list.length; i++){%>
+                                            <%if(i===0){%>
+                                                <div class="item active">
+                                            <%}else{%>
+                                                <div class="item">
+                                            <%}%>
+                                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                                        <a href="<%=recommend_list[i].link%>"><img src="<%=recommend_list[i].img%>" class="img-responsive"></a>
+                                                        <p><%=recommend_list[i].title%></p>
+                                                    </div>
+                                                </div>
+                                            <%}%>
+                                        </div>
+                                        <a class="left carousel-control" href="#carouselRecommend" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                                        <a class="right carousel-control" href="#carouselRecommend" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <img src="static/img/footer_text.png"/>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <% include ./include/footer.ejs %>
 <script src="../static/js/home.js"></script>

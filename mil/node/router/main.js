@@ -214,8 +214,10 @@ module.exports = function(app, fs, Schema) {
     });
     // 메인 화면에 각 패싯별 카운트를 구한다.
     app.get(/^\/(|index\.html)$/, function(req, res){
-        var total = [];
+        var total = [], recommend_list, notice_list;
         var facets = [{title:'기록물건명', idx:0},{title:'생산기관', idx:1},{title:'핵심키워드', idx:2},{title:'결재권자', idx:3},{title:'대외자료', idx:4},{title:'이벤트', idx:5},{title:'사람', idx:6}];
+        RecommendSchema.find({}).sort({isoDate:'desc'}).then((docs) => {recommend_list = docs;});
+        NoticeSchema.find({}).then((docs) => {notice_list = docs;});
         function callback(){
             total = total.sort(function(a, b){
                 return a.idx - b.idx;
@@ -224,7 +226,9 @@ module.exports = function(app, fs, Schema) {
                 menu:menu,
                 total:JSON.stringify(total),
                 data:total,
-                searchList:searchList
+                searchList:searchList,
+                recommend_list:recommend_list,
+                notice_list:notice_list
             });
         }
         fnGetSubClass();

@@ -1,11 +1,11 @@
-var fs = require('fs');
-var express = require("express");
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var mongoUrl = "mongodb://localhost:27017/Khistory";
+const fs = require('fs');
+const express = require("express");
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongoUrl = "mongodb://localhost:27017/Khistory";
 
-var $app = express();
+const $app = express();
 $app.use(bodyParser.urlencoded({ extended: false }));
 $app.use(bodyParser.json());
 $app.use('/static', express.static(__dirname + '/static'));
@@ -16,13 +16,8 @@ $app.set('view engine', 'ejs');
 $app.engine('html', require('ejs').renderFile);
 
 // mongoDB 연결
-var mongoose = require('mongoose');
-mongoose.connect(mongoUrl, function(err, data){
-    if(!err){
-    	//console.log(data);
-	}
-});
-
+const mongoose = require('mongoose');
+mongoose.connect(mongoUrl, function(err, data){if(err) console.log(data)});
 
 $app.use(session({
     secret: 'secret_cheju',
@@ -40,12 +35,12 @@ $app.use(function(req, res, next){
     next();
 });
 
-// //define model
-const Jeju = require('./model/jeju');
-const router = require('./router/main')($app, fs, Jeju);
+// require('./router/state');
+const _mil = require('./model/jeju');
+// require('./router/init');
+require('./router/main')($app, fs, _mil);
+require('./router/admin')($app, fs, _mil);
 
-// const News_Board = require('./model/news_board');
-// const news_board = require('./router/admin')($app, fs, Jeju);
 
 $app.listen(8106);
 console.log('node js server started with mongo. port number is 8106');

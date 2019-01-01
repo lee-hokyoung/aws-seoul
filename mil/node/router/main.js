@@ -1,25 +1,32 @@
-const _label = 'http://www[dot]w3[dot]org/2000/01/rdf-schema#label';
-const _altLabel = 'http://www[dot]w3[dot]org/2004/02/skos/core#altLabel';
-const _prefLabel = 'http://www[dot]w3[dot]org/2004/02/skos/core#prefLabel';
-const _hiddenLabel = 'http://www.w3.org/2004/02/skos/core#hiddenLabel';
-const _description = 'http://purl[dot]org/dc/elements/1[dot]1/description';
-const _subClassOf = 'http://www[dot]w3[dot]org/2000/01/rdf-schema#subClassOf';
-const _defaultFacets = 'http://topbraid[dot]org/facet#defaultFacets';
-const _class = 'http://www[dot]w3[dot]org/2002/07/owl#Class';
-// const _resource = 'http://16[dot]1[dot]159[dot]233:8106/resource/';
-const _resource = 'http://mil[dot]k-history[dot]kr/resource/';
-const _thing = 'http://www[dot]w3[dot]org/2002/07/owl#Thing';
-const _lat_long = 'http://www[dot]w3[dot]org/2003/01/geo/wgs84_pos#lat_long';
-const _objectProperty = 'http://www[dot]w3[dot]org/2002/07/owl#ObjectProperty';
-const _datatypeProperty = 'http://www[dot]w3[dot]org/2002/07/owl#DatatypeProperty';
-const _default_title = '기록물건';
+const _state = require('../router/state');
+
 const Promise = require('promise');
 const NoticeSchema = require('../model/notice');
 const RecommendSchema = require('../model/recommend');
-const moment = require('moment');
+// const moment = require('moment');
 require('moment/locale/ko');
 
-var MongoClient = require('mongodb').MongoClient;
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+// const Schema = require('../model/jeju');
+const _resource = _state._resource;
+const _subClassOf = _state._subClassOf;
+const menu = _state._menu;
+const _label = _state._label;
+const _defaultFacets = _state._defaultFacets;
+const _description = _state._description;
+const _altLabel = _state._altLabel;
+const _prefLabel = _state._prefLabel;
+const _lat_long = _state._lat_long;
+const _search_list = _state._search_list;
+
+var MongoClient = require('mongodb').   MongoClient;
 var url = 'mongodb://localhost:27017/';
 var searchList;
 var date = new Date();
@@ -38,89 +45,113 @@ function getDateStr(date){
     var year = date.getFullYear();
     return ("0000" + year.toString()).slice(-4) + ("00" + month.toString()).slice(-2) + ("00" + day.toString()).slice(-2);
 }
-var menu = {
-    "home":{
-        label: "Home",
-        out:"Home",
-        baseUrl: "/"
-    },
-    "mongo_1":{
-        label:"기록물건명",
-        out:"기록물건명",
-        baseUrl:"/mongo/기록물건명"
-    },
-    "mongo_3":{
-        label:"결재권자",
-        out:"결재권자",
-        baseUrl:"/mongo/결재권자"
-    },
-    "mongo_4":{
-        label:"생산당시총장",
-        out:"생산당시총장",
-        baseUrl:"/mongo/생산당시총장"
-    },
-    "mongo_5":{
-        label:"업무기능",
-        out:"업무기능",
-        baseUrl:"/mongo/업무기능"
-    },
-    "mongo_6":{
-        label:"생산기관",
-        out:"생산기관",
-        baseUrl:"/mongo/생산기관"
-    },
-    "mongo_7":{
-        label:"시간",
-        out:"시간",
-        baseUrl:"/mongo/시간"
-    },      
-    "mongo_8":{
-        label:"공간",
-        out:"공간",
-        baseUrl:"/mongo/공간"
-    },
-    "mongo_9":{
-        label:"사람",
-        out:"사람",
-        baseUrl:"/mongo/사람"
-    },
-    "mongo_10":{
-        label:"이벤트",
-        out:"이벤트",
-        baseUrl:"/mongo/이벤트"
-    },
-    "mongo_2":{
-        label:"대외자료",
-        out:"대외자료",
-        baseUrl:"/mongo/대외자료"
-    },
-    "mongo_11":{
-        label:"아이디어",
-        out:"아이디어",
-        baseUrl:"/mongo/아이디어"
-    }
-};
-var _search_list = [
-    '@id',
-    'http://www[dot]w3[dot]org/2000/01/rdf-schema#label.@value',
-    'http://www[dot]w3[dot]org/2000/01/rdf-schema#label',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#altLabel.@value',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#altLabel',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#prefLabel.@value',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#prefLabel',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#hiddenLabel.@value',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#hiddenLabel',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#Concept',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#changeNote',
-    'http://www[dot]w3[dot]org/2004/02/skos/core#changeNote.@value'
-];
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
+
+//
+// var MongoClient = require('mongodb').MongoClient;
+// var url = 'mongodb://localhost:27017/';
+// var searchList;
+// var date = new Date();
+// var nowDate = getDateStr(date);
+// var d = getLastWeek();
+// var lastWeek = getDateStr(d);
+
+// function getLastWeek() {
+//     var today = new Date();
+//     var lastW = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+//     return lastW;
+// }
+// function getDateStr(date){
+//     var month = date.getMonth() + 1;
+//     var day = date.getDate();
+//     var year = date.getFullYear();
+//     return ("0000" + year.toString()).slice(-4) + ("00" + month.toString()).slice(-2) + ("00" + day.toString()).slice(-2);
+// }
+// const menu = _state._menu;
+// const _search_list = _state._search_list;
+// var menu = {
+//     "home":{
+//         label: "Home",
+//         out:"Home",
+//         baseUrl: "/"
+//     },
+//     "mongo_1":{
+//         label:"기록물건명",
+//         out:"기록물건명",
+//         baseUrl:"/mongo/기록물건명"
+//     },
+//     "mongo_3":{
+//         label:"결재권자",
+//         out:"결재권자",
+//         baseUrl:"/mongo/결재권자"
+//     },
+//     "mongo_4":{
+//         label:"생산당시총장",
+//         out:"생산당시총장",
+//         baseUrl:"/mongo/생산당시총장"
+//     },
+//     "mongo_5":{
+//         label:"업무기능",
+//         out:"업무기능",
+//         baseUrl:"/mongo/업무기능"
+//     },
+//     "mongo_6":{
+//         label:"생산기관",
+//         out:"생산기관",
+//         baseUrl:"/mongo/생산기관"
+//     },
+//     "mongo_7":{
+//         label:"시간",
+//         out:"시간",
+//         baseUrl:"/mongo/시간"
+//     },
+//     "mongo_8":{
+//         label:"공간",
+//         out:"공간",
+//         baseUrl:"/mongo/공간"
+//     },
+//     "mongo_9":{
+//         label:"사람",
+//         out:"사람",
+//         baseUrl:"/mongo/사람"
+//     },
+//     "mongo_10":{
+//         label:"이벤트",
+//         out:"이벤트",
+//         baseUrl:"/mongo/이벤트"
+//     },
+//     "mongo_2":{
+//         label:"대외자료",
+//         out:"대외자료",
+//         baseUrl:"/mongo/대외자료"
+//     },
+//     "mongo_11":{
+//         label:"아이디어",
+//         out:"아이디어",
+//         baseUrl:"/mongo/아이디어"
+//     }
+// };
+// var _search_list = [
+//     '@id',
+//     'http://www[dot]w3[dot]org/2000/01/rdf-schema#label.@value',
+//     'http://www[dot]w3[dot]org/2000/01/rdf-schema#label',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#altLabel.@value',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#altLabel',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#prefLabel.@value',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#prefLabel',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#hiddenLabel.@value',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#hiddenLabel',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#Concept',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#changeNote',
+//     'http://www[dot]w3[dot]org/2004/02/skos/core#changeNote.@value'
+// ];
+// Object.size = function(obj) {
+//     var size = 0, key;
+//     for (key in obj) {
+//         if (obj.hasOwnProperty(key)) size++;
+//     }
+//     return size;
+// };
+
 module.exports = function(app, fs, Schema) {
     // 데이터에 필수로 들어갈 내용들을 서버 구동시 작성함.
     var menu_size = Object.size(menu), __idx = 1, __left = [], __facet_list = [], __depth_list = [], $list = [];
@@ -130,7 +161,6 @@ module.exports = function(app, fs, Schema) {
     var data_list, structure = [], structure_data = {}, facet_count_list = [];
     var displayOnFacet, inputType, register_list = {}, subClass = {}, collection, distinct_list = [], middle_list = [];
     var count_facet = ['업무기능', '생산기관', '공간', '이벤트'];
-    // var count_facet = ['공간'];
 
     subProductCursor.on('data', function(docs){
         subProductList.push(docs.toObject()['@id'].replace(_resource, ''));
@@ -206,10 +236,218 @@ module.exports = function(app, fs, Schema) {
         middle_list = collection[_resource + 'displayOnMiddle']['@list'].map(function(item){return item['@id']});
         fnCountInnerTable();
     });
+
+    MongoClient.connect(url, {useNewUrlParser:true}, function(err, db){
+        if(err) throw err;
+        var dbo = db.db('Khistory');
+        dbo.collection('milSearch')
+            .aggregate([{$match:{date:{$gte:lastWeek}}},{$group:{_id:'$searchText', count:{$sum:1}}}]).toArray(function(err, res){
+            if(err) throw err;
+            searchList = res.sort(function(a, b){return (a.count < b.count)?1:(a.count > b.count)?-1:0});
+            db.close();
+        })
+    });
+    function fnCountInnerTable(){
+        count_facet.forEach((f) => {
+            var obj = {name:f, list:[]};
+            var cursor = Schema.find({'@type':_resource + f}).cursor();
+            cursor.on('data', (docs) => {
+                obj.list.push(docs.toObject()['@id']);
+            });
+            cursor.on('close', () => {
+                fnGetFacetObjCount(obj, f);
+            });
+        });
+    }
+    function fnGetFacetObjCount(obj, name){
+        var data = obj.list, idx = 0, or_list, facet_count = {};
+        var size = obj.list.length;
+        facet_count['name'] = name;
+        facet_count['list'] = [];
+        data.forEach((d) => {
+            var list = [];
+            middle_list.filter((f) => {
+                if(f.indexOf('기록물건명') > -1) return f;
+            }).forEach((v) => {
+                or_list = {};
+                or_list[v + '.@id'] = d;
+                list.push(or_list);
+            });
+            var collection = Schema.find({'$or':list});
+            collection.count((err, count) => {
+                if(err) throw err;
+                facet_count['list'].push({name:d.replace(_resource, ''), count:count});
+                if(++idx === size) facet_count_list.push(facet_count);
+            });
+        });
+    }
+    function init(){
+        for(var key in menu){
+            var facet = menu[key]['label'];
+            if(facet !== 'Home'){
+                if(menu[key].hasOwnProperty('subClass')){
+                    menu[key].subClass.forEach(function(v){
+                        if(typeof(v) === 'object'){
+                            v[Object.keys(v)].forEach(function(w){
+                                Schema.aggregate([{$match:{'@type':_resource + w}}, {$group:{'_id':w, count:{$sum:1}}}]).then(function(docs){
+                                    $list.push(docs[0]);
+                                });
+                            })
+                        }
+                        else{
+                            Schema.aggregate([{$match:{'@type':_resource + v}}, {$group:{'_id':v, count:{$sum:1}}}]).then(function(docs){
+                                $list.push(docs[0]);
+                            });
+                        }
+                    })
+                }
+                Schema.aggregate([{$match:{'@type':_resource + menu[key]['label']}}, {$group:{'_id':menu[key]['label'], count:{$sum:1}}}]).then(function(docs){
+                    $list.push(docs[0]);
+                });
+            }
+        }
+
+        for(var key in menu){
+            var facet = menu[key]['label'];
+            if(facet !== 'Home'){
+                Schema.aggregate([{$match:{'@type':_resource + facet}}, {$group:{'_id':facet, count:{$sum:1}}}]).then(function(agg_docs){
+                    __facet_list.push(agg_docs[0]);
+                });
+                var name, facet_cursor = Schema.find({'@id':_resource + facet}).cursor();
+                facet_cursor.on('data', function(docs){
+                    name = docs.toObject()[_label]['@value'].replace(/ /gi, '');
+                    var sub_find = {};
+                    sub_find[_subClassOf + '.@id'] = docs.toObject()['@id'];
+                    __left.push({name:name, link:docs.toObject()[_defaultFacets]['@list'], sub_find:sub_find});
+                });
+                facet_cursor.on('close', function(){
+                    __idx++;
+                    if(__idx === menu_size) fnGetSubClass();
+                });
+            }
+        }
+        function fnGetSubClass(){
+            var size = __left.length, sub_idx = 0;
+            __left.forEach(function(v){
+                var cursor = Schema.find(v.sub_find).cursor();
+                v.subClass = [];
+                cursor.on('data', function(docs){
+                    v.subClass.push({docs:docs});
+                });
+                cursor.on('close', function(){
+                    sub_idx++;
+                    if(size === sub_idx) fnGetCount();
+                });
+            });
+        }
+        function fnGetCount(){
+            var _idx = 0, curr_idx = 0, f_idx = 0;
+            __left.forEach(function(v, i){
+                if(v.subClass.length === 0) return false;
+                curr_idx += parseInt(v.subClass.length);
+                v.subClass.forEach(function(w, j){
+                    Schema.aggregate([{$match:{'@type':w.docs.toObject()['@id']}},
+                        {$group:{_id:w.docs.toObject()['@id'].replace(_resource, ''), count:{$sum:1}}}])
+                        .then((agg_docs) => {
+                            _idx++;
+                            w.count = agg_docs[0].count;
+                            __depth_list.push(w);
+                        }).then(() => {
+                        f_idx++;
+                        if(f_idx === curr_idx - 1) cb();
+                    });
+                });
+            });
+        }
+    }
+    // 데이터에 필수로 들어갈 내용들을 서버 구동시 작성함.
+    // var menu_size = Object.size(menu), __idx = 1, __left = [], __facet_list = [], __depth_list = [], $list = [];
+    // var collection_cursor = Schema.find({}).where('@id').equals(_resource + 'OrderedCollection').cursor();
+    // var dataStructure = Schema.find({}).where('@id').equals(_resource + 'TableDisplay').cursor();
+    // var subProductCursor = Schema.find({}).where('@type').equals(_resource + '부실단').cursor(), subProductList = [];
+    // var data_list, structure = [], structure_data = {}, facet_count_list = [];
+    // var displayOnFacet, inputType, register_list = {}, subClass = {}, collection, distinct_list = [], middle_list = [];
+    // var count_facet = ['업무기능', '생산기관', '공간', '이벤트'];
+    // // var count_facet = ['공간'];
+    //
+    // subProductCursor.on('data', function(docs){
+    //     subProductList.push(docs.toObject()['@id'].replace(_resource, ''));
+    // });
+    // dataStructure.on('data', function(docs){
+    //     data_list = docs.toObject()[_resource + 'displayOnTable']['@list'].map(function(item){
+    //         return item['@id'].replace(_resource, '');
+    //     });
+    // });
+    // dataStructure.on('close', function(){
+    //     data_list.forEach(function(v){
+    //         var facet_title = {};
+    //         if(v.indexOf('with') > -1){
+    //             if(distinct_list.indexOf(v.split('with')[0]) > -1) return false;
+    //             var sub_facet = [];
+    //             v.split('with')[1].split('or').forEach(function(w){
+    //                 if(w.indexOf('in') > -1){
+    //                     var arr = {};
+    //                     arr[w.split('in')[1]] = w.split('in')[0].split('and').map(function(x){return x;});
+    //                     sub_facet.push(arr);
+    //                 }else{
+    //                     sub_facet.push(w);
+    //                 }
+    //             });
+    //             facet_title[v.split('with')[0]] = sub_facet;
+    //             structure_data[v.split('with')[0]] = sub_facet;
+    //             structure.push(facet_title);
+    //             distinct_list.push(v.split('with')[0]);
+    //         }else{
+    //             if(distinct_list.indexOf(v) > -1) return false;
+    //             structure_data[v] = [v];
+    //             structure.push(v);
+    //             distinct_list.push(v);
+    //         }
+    //     });
+    //     for(var key in menu){
+    //         structure.forEach(function(v){
+    //             if(typeof(v) === 'object'){
+    //                 if(menu[key]['label'] === Object.keys(v)[0]){
+    //                     menu[key].subClass = [];
+    //                     v[Object.keys(v)[0]].forEach(function(w){
+    //                         if(typeof(w) === 'object'){
+    //                             menu[key]['subClass'].push(w);
+    //                         }else{
+    //                             menu[key]['subClass'].push(w);
+    //                         }
+    //                     })
+    //                 }
+    //             }
+    //         });
+    //     }
+    //     init();
+    // });
+    // collection_cursor.on('data', function(docs){
+    //     collection = docs.toObject();
+    //     displayOnFacet = collection[_resource + 'displayOnFacet'];
+    //     // register 관련
+    //     inputType = collection[_resource + 'displayOnRegister']['@list']
+    //         .map(function(item){return item['@id'].replace(_resource, '')})
+    //         .filter(function(f){if(docs.toObject().hasOwnProperty(_resource + 'displayOnRegister_' + f)) {return f;}});
+    //     inputType.forEach(function(v){
+    //         register_list[v] = [];
+    //         docs.toObject()[_resource + 'displayOnRegister_' + v]['@list'].forEach(function(w){
+    //             Schema.find(w).cursor().on('data', function(reg_docs){
+    //                 register_list[v].push(reg_docs);
+    //             });
+    //         });
+    //         subClass[v] = [];
+    //         Schema.find({}).where(_subClassOf + '.@id').equals(_resource + v).cursor().on('data', function(docs){
+    //             subClass[v].push(docs);
+    //         });
+    //     });
+    //     middle_list = collection[_resource + 'displayOnMiddle']['@list'].map(function(item){return item['@id']});
+    //     fnCountInnerTable();
+    // });
     app.get(/^\/intro\/(.*)/, function(req, res){
         res.render('intro/'+req.params[0], {
             menu:menu,
-            searchList:searchList
+            searchList:_data.searchList
         });
     });
     // 메인 화면에 각 패싯별 카운트를 구한다.
@@ -236,7 +474,7 @@ module.exports = function(app, fs, Schema) {
             var subClass = [], idx = 0;
             facets.forEach(function(v, i){
                 var list = [];
-                var cursor = Schema.find({}).where(_subClassOf + '.@id').equals(_resource+v.title).cursor();
+                var cursor = Schema.find({}).where(_state._subClassOf + '.@id').equals(_state._resource+v.title).cursor();
                 cursor.on('data', function(docs){
                     list.push(docs.toObject());
                 });
@@ -255,7 +493,7 @@ module.exports = function(app, fs, Schema) {
             var idx = 0, subClass = [];
             data.forEach(function(v, i){
                 var list = [], or_list = [];
-                or_list.push({'@type':_resource+v.parent});
+                or_list.push({'@type':_state._resource+v.parent});
                 if(v.sub_list.length > 0) or_list = or_list.concat(v.sub_list);
                 var cursor = Schema.find({}).or(or_list).cursor();
                 cursor.on('data', function(docs){
@@ -340,13 +578,13 @@ module.exports = function(app, fs, Schema) {
             *   그리고 inverse 관계를 직접 만들어서 나중에 query에 추가한다.
             * ----------------------------------------------------------------------*/
             var match = {}, arr = [];
-            match['@id'] = _resource + req.params[0];
+            match['@id'] = _state._resource + req.params[0];
             // cursor 만들기
-            var left_facets = Schema.find({'@id':_resource + req.params[0]}).cursor();
+            var left_facets = Schema.find({'@id':_state._resource + req.params[0]}).cursor();
             left_facets.on('data', function(docs){
-                if(docs.toObject().hasOwnProperty(_defaultFacets)){
-                    docs.toObject()[_defaultFacets]['@list'].forEach(function(list){
-                        var inverse = _resource + list['@id'].split('/resource/')[1].split('_')[1] + '_' + list['@id'].split('/resource/')[1].split('_')[0];
+                if(docs.toObject().hasOwnProperty(_state._defaultFacets)){
+                    docs.toObject()[_state._defaultFacets]['@list'].forEach(function(list){
+                        var inverse = _state._resource + list['@id'].split('/resource/')[1].split('_')[1] + '_' + list['@id'].split('/resource/')[1].split('_')[0];
                         arr.push(inverse);
                         arr.push(list['@id']);
                         left_menu.push(list['@id']);
@@ -361,7 +599,7 @@ module.exports = function(app, fs, Schema) {
                         or[v + '.@id'] = {"$exists":true};
                         list.push(or);
                     });
-                    list.push({'@type':_resource+req.params[0]});
+                    list.push({'@type':_state._resource+req.params[0]});
                     Schema.find({}).or(list).exec(function(err, docs){
                         if(err) return console.error('err : ', err);
                         left = docs;
@@ -381,16 +619,16 @@ module.exports = function(app, fs, Schema) {
             structure_data[req.params[0]].forEach(function(item){
                 if(typeof(item) === 'object'){
                     item[Object.keys(item)].forEach(function(v){
-                        type_list.push({'@id':_resource + v});
+                        type_list.push({'@id':_state._resource + v});
                     });
-                }else type_list.push({'@id':_resource + item});
+                }else type_list.push({'@id':_state._resource + item});
             });
             var subClass = Schema.find({}).or({'$or':type_list}).cursor();
             subClass.on('data', function(docs){
                 subClassList.push({'@type':docs.toObject()['@id']});
             });
             subClass.on('close', function(){
-                subClassList.push({'@type':_resource+req.params[0]});
+                subClassList.push({'@type':_state._resource+req.params[0]});
                 Schema.aggregate().match({'$or':subClassList}).unwind('@type').then(function(docs){
                     body = docs;
                     callback(subClassList);
@@ -425,7 +663,7 @@ module.exports = function(app, fs, Schema) {
                 if(request.body.hasOwnProperty('searchData')){  // 싱글패싯 + 결과내 재검색
                     search = _search_list.map(function(item){
                         var obj = {};
-                        obj[item] = {$regex:request.body['searchData']};
+                        obj[item] = {$regex:request.body['searchData'], $options:'i'};
                         return obj;
                     });
                     Schema.aggregate().match({'$and':[{'$or':or_list}, {'$or':search}]}).unwind('@type').sort(sort).then(function(docs){
@@ -447,12 +685,12 @@ module.exports = function(app, fs, Schema) {
             }
             else if(typeof(title) === 'object'){   // 멀티 패싯 검색
                 var match = title.map(function(v, i){
-                    ori = {}, inv = {}, or_match = {}, def= {}, lbl1 = {}, lbl2 = {};
+                    ori = {}, inv = {}, or_match = {}, def= {}, lbl1 = {}, lbl2 = {};s
                     var prev = _default_title + '_' + link[i].split('_')[0];
                     var inverse = link[i].split('_')[1] + '_' + link[i].split('_')[0];
-                    ori[_resource + link[i] + '.@id'] = _resource + v;
-                    def[_resource + prev + '.@id'] = _resource + v;
-                    inv[_resource + inverse + '.@id'] = _resource + v;
+                    ori[_state._resource + link[i] + '.@id'] = _state._resource + v;
+                    def[_state._resource + prev + '.@id'] = _state._resource + v;
+                    inv[_state._resource + inverse + '.@id'] = _state._resource + v;
                     lbl1[_label] = title[i];
                     lbl2[_label+'.@value'] = title[i];
                     or_match['$or'] = [ori, inv, def, lbl1, lbl2];
@@ -460,9 +698,9 @@ module.exports = function(app, fs, Schema) {
                 });
                 var and_match = match.map(function(v){return v});
                 if(request.body.hasOwnProperty('searchData')){  // 멀티패싯 + 결과내 재검색
-                    search = _search_list.map(function(item){
+                    search = _state._search_list.map(function(item){
                         var obj = {};
-                        obj[item] = {$regex:request.body['searchData']};
+                        obj[item] = {$regex:request.body['searchData'], $options:'i'};
                         return obj;
                     });
                     and_match.push({'$or':search});
@@ -478,9 +716,9 @@ module.exports = function(app, fs, Schema) {
             }
         }
         else{ // 왼쪽 패싯 없이 단순 결과내 재검색일 경우
-            search = _search_list.map(function(item){
+            search = _state._search_list.map(function(item){
                 var obj = {};
-                obj[item] = {$regex:request.body['searchData']};
+                obj[item] = {$regex:request.body['searchData'], $options:'i'};
                 return obj;
             });
             Schema.aggregate().match({'$or':search}).unwind('@type').sort(sort).then(function(docs){
@@ -493,7 +731,7 @@ module.exports = function(app, fs, Schema) {
     *   subClass와 inverse 관계의 모든 자료를 불러온다.
     * ----------------------------------------------------------------------*/
     app.get(/^\/initTimeline/, function(request, res){
-        var cursor = Schema.find({}).where('@type').equals(_resource+'시간').cursor();
+        var cursor = Schema.find({}).where('@type').equals(_state._resource+'시간').cursor();
         var time_list = [], chart_left = request.query.chart_left;
         cursor.on('data', function(docs){
             var time = docs.toObject()['@id'];
@@ -504,7 +742,7 @@ module.exports = function(app, fs, Schema) {
             var list_size = time_list.length;
             time_list.forEach(function(docs){
                 var match = {}, group = {};
-                match[_resource+chart_left+'_시간.@id'] = docs;
+                match[_state.resource+chart_left+'_시간.@id'] = docs;
                 group['_id'] = null;
                 group['count'] = {'$sum':1};
                 Schema.aggregate().match(match).group(group).then(function(doc){
@@ -559,7 +797,7 @@ module.exports = function(app, fs, Schema) {
         var searchText = req.body['query'], result = [];
         var search_list = _search_list.map(function(item){
             var obj = {};
-            obj[item] = {$regex:searchText};
+            obj[item] = {$regex:searchText, $options:'i'};
             return obj;
         });
         var cursor = Schema.find({}).or({$or:search_list}).where('@type').cursor();
@@ -681,6 +919,7 @@ module.exports = function(app, fs, Schema) {
             });
         }
         function fnGetCollectionData() {
+            console.log('get collection data start');
             var middle_list, bottom_list;
             var cursor = Schema.find({}).where('@id').equals(_resource + 'OrderedCollection').cursor();
             cursor.on('data', function(docs){
@@ -695,10 +934,14 @@ module.exports = function(app, fs, Schema) {
             });
         }
         function fnCreateProperty(list){
+            console.log('create property start');
             var middle_list = list[0], resources = list[1], res_id = list[1], idx = 0;
+            console.log('middle list : ', middle_list);
+            console.log('resource : ', _resource, ', resource id : ', resource_id);
             resources.push('그림');
             var new_list = [];
             Schema.aggregate().match({'@id': _resource + resource_id}).then(function (docs) {
+                console.log('docs : ', docs);
                 docs_data = docs[0];
                 var type_list = [];
                 if(typeof(docs[0]['@type'])==='object' ){
@@ -717,6 +960,7 @@ module.exports = function(app, fs, Schema) {
                 if(docs[0].hasOwnProperty(_description))
                     _data['desc'] = docs[0][_description]['@value'].replace(/\[dot\]/gi, '.');
                 resources.forEach(function (v, i) {
+                    console.log('v : ', v, ' , resource : ' + _resource);
                     if (docs[0].hasOwnProperty(_resource + v)){
                         if(docs[0][_resource+v].length > 0){
                             _data[res_id[i]] = [];
@@ -885,7 +1129,7 @@ module.exports = function(app, fs, Schema) {
             var searchText = req.body['searchText'];
             var search_list = _search_list.map(function(item){
                 var obj = {};
-                obj[item] = {$regex:searchText};
+                obj[item] = {$regex:searchText, $options:'i'};
                 return obj;
             });
             cursor = Schema.find({$or:search_list}).cursor();
@@ -956,7 +1200,7 @@ module.exports = function(app, fs, Schema) {
             getFrequency();
             var search_list = _search_list.map(function(item){
                 var obj = {};
-                obj[item] = {$regex:searchText};
+                obj[item] = {$regex:searchText, $options: 'i'};
                 return obj;
             });
             var cursor = Schema.find({}).or({$or:search_list}).where('@type').cursor();
@@ -988,171 +1232,7 @@ module.exports = function(app, fs, Schema) {
             });
         }
     });
-    /*  -----------------------------------------------------------------------------------------
-    *   admin Page 관련
-    -------------------------------------------------------------------------------------------*/
-    app.post('/admin/check', (req, res) => {
-        if(req.session.username=== req.body.id && req.session.userpwd === req.body.pwd){
-            req.session.status = 1;
-            res.send({result:1});
-        }else{
-            res.send({result:0});
-        }
-    });
-    app.get('/admin/login', (req, res) =>{
-        res.render('admin/login', {
-            session:req.session
-        });
-    });
-    app.get('/admin/logout', (req, res) => {
-        req.session.status = 0;
-        res.render('admin/login',{
-            session:req.session
-        });
-    });
-    app.get('/admin/data', (req, res) =>{
-        if(req.session.status === 1){
-            res.render('admin/data', {
-                menu:menu,
-                left:__left,
-                facet_list:__facet_list,
-                collection:collection,
-                session:req.session
-            });
-        }else{
-            res.render('admin/login', {
-                session:req.session
-            });
-        }
-    });
-    app.get('/admin/write', (req, res) =>{
-        if(req.session.status === 1){
-            res.render('admin/write', {
-                session:req.session
-            });
-        }else{
-            res.render('admin/login', {
-                session:req.session
-            })
-        }
-    });
-    
-    /*  --------------------------------------------------------------
-    *   추천 기록자료 관리
-    *   ------------------------------------------------------------*/
-    app.get('/admin/recommend', (req, res) => {
-        if(req.session.status === 1){
-            RecommendSchema.find({}).then((docs) => {
-                res.render('admin/recommend', {
-                    list:docs,
-                    session:req.session
-                });
-            });
-        }else{
-            res.render('admin/login', {
-                session:req.session
-            })
-        }
-    });
-    app.get('/admin/recommend/list', (req, res) => {
-        RecommendSchema.find({}).then((docs) => {res.send(docs)});
-    });
-    // 추천기록 관리 CRUD
-    app.post('/admin/recommend/create', (req, res) => {
-        if(req.session.status === 1){
-            const recommendObj = new RecommendSchema(req.body);
-            recommendObj.save((err) => {
-                if(err) return res.status(500).send(err);
-                return res.status(200).send(recommendObj);
-            })
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }
-    });
-    app.post('/admin/recommend/read', (req, res) => {
-        if(req.session.status === 1){
-            RecommendSchema.find({_id:req.body._id}).then((docs) => {res.send(docs[0])});
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }});
-    app.post('/admin/recommend/update', (req, res) => {
-        if(req.session.status === 1){
-            RecommendSchema.updateOne({_id:req.body._id}, {$set:{title:req.body.title, img:req.body.img, link:req.body.link}}).then((docs) => {res.send(docs);});
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }});
-    app.post('/admin/recommend/delete', (req, res) => {
-        if(req.session.status === 1){
-            RecommendSchema.deleteOne({_id:req.body._id}).then((docs) =>{res.send(docs)});
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }});
 
-    /*  --------------------------------------------------------------
-    *   공지사항
-    *   ------------------------------------------------------------*/
-    app.get('/admin/news_board', (req, res) =>{
-        if(req.session.status === 1){
-            NoticeSchema.find({}).sort({isoDate:'desc'}).then((docs) => {
-                res.render('admin/news_board', {
-                    list:docs,
-                    session:req.session
-                });
-            });
-        }else {
-            res.render('admin/login', {
-                session:req.session
-            });
-        }
-    });
-    // 공지사항 CRUD
-    app.post('/admin/notice/insert', (req, res) =>{
-        if(req.session.status === 1){
-            const newNoticeObj = new NoticeSchema({
-                title:req.body.title,
-                author:req.body.author,
-                content:req.body.content,
-                published_date:moment().format('LLLL')
-            });
-            newNoticeObj.save(function(err){
-                if(err) return res.status(500).send(err);
-                return res.status(200).send(newNoticeObj);
-            });
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }
-    });
-    app.post('/admin/notice/read', (req, res) => {
-        if(req.session.status === 1){
-            var cursor = NoticeSchema.find({_id:req.body._id}).cursor(), result;
-            cursor.on('data', (docs) => {
-                result = docs;
-            });
-            cursor.on('close', () => {
-                res.send(result);
-            });
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }
-    });
-    app.post('/admin/notice/update', (req, res) => {
-        if(req.session.status === 1){
-            NoticeSchema.updateOne({_id:req.body._id}, {$set:{title:req.body.title,author:req.body.author, content:req.body.content}}).then((docs) => {
-                res.send(docs);
-            });
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }
-    });
-    app.post('/admin/notice/delete', (req, res) => {
-        if(req.session.status === 1){
-            NoticeSchema.deleteOne({_id:req.body._id}).then((docs) => {
-                res.send(docs);
-            });
-        }else{
-            res.send({result:'error', comment:'권한없음'});
-        }
-    });
     app.post('/getDataByType', (req, res) =>{
         var type = req.body['type'], result = [];
         var cursor = Schema.find({'@type':_resource + type}).cursor();
@@ -1163,9 +1243,6 @@ module.exports = function(app, fs, Schema) {
             })
         })
     });
-    /*  -----------------------------------------------------------------------------------------
-    *   admin Page 관련 끝
-    -------------------------------------------------------------------------------------------*/
     getFrequency();
     function getFrequency(){
         MongoClient.connect(url, {useNewUrlParser:true}, function(err, db){
@@ -1179,112 +1256,112 @@ module.exports = function(app, fs, Schema) {
             })
         });
     }
-    function fnCountInnerTable(){
-        count_facet.forEach((f) => {
-            var obj = {name:f, list:[]};
-            var cursor = Schema.find({'@type':_resource + f}).cursor();
-            cursor.on('data', (docs) => {
-                obj.list.push(docs.toObject()['@id']);
-            });
-            cursor.on('close', () => {
-                fnGetFacetObjCount(obj, f);
-            });
-        });
-    }
-    function fnGetFacetObjCount(obj, name){
-        var data = obj.list, idx = 0, or_list, facet_count = {};
-        var size = obj.list.length;
-        facet_count['name'] = name;
-        facet_count['list'] = [];
-        data.forEach((d) => {
-            var list = [];
-            middle_list.filter((f) => {
-                if(f.indexOf('기록물건명') > -1) return f;
-            }).forEach((v) => {
-                or_list = {};
-                or_list[v + '.@id'] = d;
-                list.push(or_list);
-            });
-            var collection = Schema.find({'$or':list});
-            collection.count((err, count) => {
-                if(err) throw err;
-                facet_count['list'].push({name:d.replace(_resource, ''), count:count});
-                if(++idx === size) facet_count_list.push(facet_count);
-            });
-        });
-    }
-    function init(){
-        for(var key in menu){
-            var facet = menu[key]['label'];
-            if(facet !== 'Home'){
-                if(menu[key].hasOwnProperty('subClass')){
-                    menu[key].subClass.forEach(function(v){
-                        if(typeof(v) === 'object'){
-                            v[Object.keys(v)].forEach(function(w){
-                                Schema.aggregate([{$match:{'@type':_resource + w}}, {$group:{'_id':w, count:{$sum:1}}}]).then(function(docs){
-                                    $list.push(docs[0]);
-                                });
-                            })
-                        }
-                        else{
-                            Schema.aggregate([{$match:{'@type':_resource + v}}, {$group:{'_id':v, count:{$sum:1}}}]).then(function(docs){
-                                $list.push(docs[0]);
-                            });
-                        }
-                    })
-                }
-                Schema.aggregate([{$match:{'@type':_resource + menu[key]['label']}}, {$group:{'_id':menu[key]['label'], count:{$sum:1}}}]).then(function(docs){
-                    $list.push(docs[0]);
-                });
-            }
-        }
-
-        for(var key in menu){
-            var facet = menu[key]['label'];
-            if(facet !== 'Home'){
-                Schema.aggregate([{$match:{'@type':_resource + facet}}, {$group:{'_id':facet, count:{$sum:1}}}]).then(function(agg_docs){
-                    __facet_list.push(agg_docs[0]);
-                });
-                var name, facet_cursor = Schema.find({'@id':_resource + facet}).cursor();
-                facet_cursor.on('data', function(docs){
-                    name = docs.toObject()[_label]['@value'].replace(/ /gi, '');
-                    var sub_find = {};
-                    sub_find[_subClassOf + '.@id'] = docs.toObject()['@id'];
-                    __left.push({name:name, link:docs.toObject()[_defaultFacets]['@list'], sub_find:sub_find});
-                });
-                facet_cursor.on('close', function(){
-                    __idx++;
-                    if(__idx === menu_size) fnGetSubClass();
-                });
-            }
-        }
-        function fnGetSubClass(){
-            var size = __left.length, sub_idx = 0;
-            __left.forEach(function(v){
-                var cursor = Schema.find(v.sub_find).cursor();
-                v.subClass = [];
-                cursor.on('data', function(docs){
-                    v.subClass.push({docs:docs});
-                });
-                cursor.on('close', function(){
-                    sub_idx++;
-                    if(size === sub_idx) fnGetCount();
-                });
-            });
-        }
-        function fnGetCount(){
-            var _idx = 0, curr_idx = 0;
-            __left.forEach(function(v){
-                if(v.subClass.length === 0) return false;
-                curr_idx += parseInt(v.subClass.length);
-                v.subClass.forEach(function(w){
-                    Schema.aggregate([{$match:{'@type':w.docs.toObject()['@id']}},{$group:{_id:w.docs.toObject()['@id'].replace(_resource, ''), count:{$sum:1}}}]).then(function(agg_docs){
-                        _idx++;
-                        w.count = agg_docs[0].count;
-                        __depth_list.push(w);
-                    });
-                });
-            });
-        }
-    }
+    // function fnCountInnerTable(){
+    //     count_facet.forEach((f) => {
+    //         var obj = {name:f, list:[]};
+    //         var cursor = Schema.find({'@type':_resource + f}).cursor();
+    //         cursor.on('data', (docs) => {
+    //             obj.list.push(docs.toObject()['@id']);
+    //         });
+    //         cursor.on('close', () => {
+    //             fnGetFacetObjCount(obj, f);
+    //         });
+    //     });
+    // }
+    // function fnGetFacetObjCount(obj, name){
+    //     var data = obj.list, idx = 0, or_list, facet_count = {};
+    //     var size = obj.list.length;
+    //     facet_count['name'] = name;
+    //     facet_count['list'] = [];
+    //     data.forEach((d) => {
+    //         var list = [];
+    //         middle_list.filter((f) => {
+    //             if(f.indexOf('기록물건명') > -1) return f;
+    //         }).forEach((v) => {
+    //             or_list = {};
+    //             or_list[v + '.@id'] = d;
+    //             list.push(or_list);
+    //         });
+    //         var collection = Schema.find({'$or':list});
+    //         collection.count((err, count) => {
+    //             if(err) throw err;
+    //             facet_count['list'].push({name:d.replace(_resource, ''), count:count});
+    //             if(++idx === size) facet_count_list.push(facet_count);
+    //         });
+    //     });
+    // }
+    // function init(){
+    //     for(var key in menu){
+    //         var facet = menu[key]['label'];
+    //         if(facet !== 'Home'){
+    //             if(menu[key].hasOwnProperty('subClass')){
+    //                 menu[key].subClass.forEach(function(v){
+    //                     if(typeof(v) === 'object'){
+    //                         v[Object.keys(v)].forEach(function(w){
+    //                             Schema.aggregate([{$match:{'@type':_resource + w}}, {$group:{'_id':w, count:{$sum:1}}}]).then(function(docs){
+    //                                 $list.push(docs[0]);
+    //                             });
+    //                         })
+    //                     }
+    //                     else{
+    //                         Schema.aggregate([{$match:{'@type':_resource + v}}, {$group:{'_id':v, count:{$sum:1}}}]).then(function(docs){
+    //                             $list.push(docs[0]);
+    //                         });
+    //                     }
+    //                 })
+    //             }
+    //             Schema.aggregate([{$match:{'@type':_resource + menu[key]['label']}}, {$group:{'_id':menu[key]['label'], count:{$sum:1}}}]).then(function(docs){
+    //                 $list.push(docs[0]);
+    //             });
+    //         }
+    //     }
+    //
+    //     for(var key in menu){
+    //         var facet = menu[key]['label'];
+    //         if(facet !== 'Home'){
+    //             Schema.aggregate([{$match:{'@type':_resource + facet}}, {$group:{'_id':facet, count:{$sum:1}}}]).then(function(agg_docs){
+    //                 __facet_list.push(agg_docs[0]);
+    //             });
+    //             var name, facet_cursor = Schema.find({'@id':_resource + facet}).cursor();
+    //             facet_cursor.on('data', function(docs){
+    //                 name = docs.toObject()[_label]['@value'].replace(/ /gi, '');
+    //                 var sub_find = {};
+    //                 sub_find[_subClassOf + '.@id'] = docs.toObject()['@id'];
+    //                 __left.push({name:name, link:docs.toObject()[_defaultFacets]['@list'], sub_find:sub_find});
+    //             });
+    //             facet_cursor.on('close', function(){
+    //                 __idx++;
+    //                 if(__idx === menu_size) fnGetSubClass();
+    //             });
+    //         }
+    //     }
+    //     function fnGetSubClass(){
+    //         var size = __left.length, sub_idx = 0;
+    //         __left.forEach(function(v){
+    //             var cursor = Schema.find(v.sub_find).cursor();
+    //             v.subClass = [];
+    //             cursor.on('data', function(docs){
+    //                 v.subClass.push({docs:docs});
+    //             });
+    //             cursor.on('close', function(){
+    //                 sub_idx++;
+    //                 if(size === sub_idx) fnGetCount();
+    //             });
+    //         });
+    //     }
+    //     function fnGetCount(){
+    //         var _idx = 0, curr_idx = 0;
+    //         __left.forEach(function(v){
+    //             if(v.subClass.length === 0) return false;
+    //             curr_idx += parseInt(v.subClass.length);
+    //             v.subClass.forEach(function(w){
+    //                 Schema.aggregate([{$match:{'@type':w.docs.toObject()['@id']}},{$group:{_id:w.docs.toObject()['@id'].replace(_resource, ''), count:{$sum:1}}}]).then(function(agg_docs){
+    //                     _idx++;
+    //                     w.count = agg_docs[0].count;
+    //                     __depth_list.push(w);
+    //                 });
+    //             });
+    //         });
+    //     }
+    // }
 };

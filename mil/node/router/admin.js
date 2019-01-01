@@ -1,45 +1,178 @@
-const _resource = 'http://mil[dot]k-history[dot]kr/resource/';
+const NoticeSchema = require('../model/notice');
+const RecommendSchema = require('../model/recommend');
+const comm = require('../router/state');
 
 module.exports = function(app, fs, Schema)
 {
-    app.post('/news_board/create', function(req, res){
-        var board = new News_Board();
-        board.title = req.body.title;
-        board.author = req.body.author;
-        board.content = req.body.content;
-        board.published_date = new Date(req.body.published_date);
-
-        board.save(function(err){
-            if(err){
-                console.error(err);
-                res.json({result: 0});
-                return;
-            }
-            res.json({result: 1});
-        });
-
-        // var session = req.session;
-        // if(session.username !== req.body['username']) {
-        //     session.status = 0;
-        //     res.send({result:0})
-        // }
-        // else {
-        //     session.status = 1;
-        //     res.send({result:1});
-        // }
+    /*  -----------------------------------------------------------------------------------------
+    *   admin Page 관련
+    -------------------------------------------------------------------------------------------*/
+    app.post('/admin/check', (req, res) => {
+        if(req.session.username=== req.body.id && req.session.userpwd === req.body.pwd){
+            req.session.status = 1;
+            res.send({result:1});
+        }else{
+            res.send({result:0});
+        }
     });
-    app.get('/logout', function(req, res){
-        var sess = req.session;
-        if(sess.status === 1){
-            req.session.destroy(function(err){
-                if(err){
-                    console.log(err);
-                }else{
-                    res.redirect('/');
-                }
+    app.get('/admin/login', (req, res) =>{
+        res.render('admin/login', {
+            session:req.session
+        });
+    });
+    app.get('/admin/logout', (req, res) => {
+        req.session.status = 0;
+        res.render('admin/login',{
+            session:req.session
+        });
+    });
+    app.get('/admin/data', (req, res) =>{
+        if(req.session.status === 1){
+            res.render('admin/data', {
+                menu:comm.menu,
+                left:__left,
+                facet_list:__facet_list,
+                collection:collection,
+                session:req.session
+            });
+        }else{
+            res.render('admin/login', {
+                session:req.session
+            });
+        }
+    });
+    app.get('/admin/write', (req, res) =>{
+        if(req.session.status === 1){
+            res.render('admin/write', {
+                session:req.session
+            });
+        }else{
+            res.render('admin/login', {
+                session:req.session
+            })
+        }
+    });
+
+
+    /*  --------------------------------------------------------------
+    *   공지사항
+    *   ------------------------------------------------------------*/
+    app.get('/admin/news_board', (req, res) =>{
+        if(req.session.status === 1){
+            NoticeSchema.find({}).sort({isoDate:'desc'}).then((docs) => {
+                res.render('admin/news_board', {
+                    list:docs,
+                    session:req.session
+                });
+            });
+        }else {
+            res.render('admin/login', {
+                session:req.session
+            });
+        }
+    });
+    // 공지사항 CRUD
+    app.post('/admin/notice/insert', (req, res) =>{
+        if(req.session.status === 1){
+            const newNoticeObj = new NoticeSchema({
+                title:req.body.title,
+                author:req.body.author,
+                content:req.body.content,
+                published_date:moment().format('LLLL')
+            });
+            newNoticeObj.save(function(err){
+                if(err) return res.status(500).send(err);
+                return res.status(200).send(newNoticeObj);
+            });
+        }else{
+            res.send({result:'error', comment:'권한없음'});
+        }
+    });
+    app.post('/admin/notice/read', (req, res) => {
+        if(req.session.status === 1){
+            var cursor = NoticeSchema.find({_id:req.body._id}).cursor(), result;
+            cursor.on('data', (docs) => {
+                result = docs;
+            });
+            cursor.on('close', () => {
+                res.send(result);
+            });
+        }else{
+            res.send({result:'error', comment:'권한없음'});
+        }
+    });
+    app.post('/admin/notice/update', (req, res) => {
+        if(req.session.status === 1){
+            NoticeSchema.updateOne({_id:req.body._id}, {$set:{title:req.body.title,author:req.body.author, content:req.body.content}}).then((docs) => {
+                res.send(docs);
+            });
+        }else{
+            res.send({result:'error', comment:'권한없음'});
+        }
+    });
+    app.post('/admin/notice/delete', (req, res) => {
+        if(req.session.status === 1){
+            NoticeSchema.deleteOne({_id:req.body._id}).then((docs) => {
+                res.send(docs);
+            });
+        }else{
+            res.send({result:'error', comment:'권한없음'});
+        }
+    });
+
+    /*  --------------------------------------------------------------
+    *   추천 기록자료 관리
+    *   ------------------------------------------------------------*/
+
+    app.get('/admin/recommend', (req, res) => {
+        if(req.session.status === 1){
+            RecommendSchema.find({}).then((docs) => {
+                res.render('admin/recommend', {
+                    list:docs,
+                    session:req.session
+                });
+            });
+        }else{
+            res.render('admin/login', {
+                session:req.session
+            })
+        }
+    });
+    app.get('/admin/recommend/list', (req, res) => {
+        RecommendSchema.find({}).then((docs) => {res.send(docs)});
+    });
+
+    // 추천기록 관리 CRUD
+    app.post('/admin/recommend/create', (req, res) => {
+        if(req.session.status === 1){
+            const recommendObj = new RecommendSchema(req.body);
+            recommendObj.save((err) => {
+                if(err) return res.status(500).send(err);
+                return res.status(200).send(recommendObj);
             })
         }else{
-            res.redirect('/');
+            res.send({result:'error', comment:'권한없음'});
         }
-    })
+    });
+    app.post('/admin/recommend/read', (req, res) => {
+        if(req.session.status === 1){
+            RecommendSchema.find({_id:req.body._id}).then((docs) => {res.send(docs[0])});
+        }else{
+            res.send({result:'error', comment:'권한없음'});
+        }
+    });
+    app.post('/admin/recommend/update', (req, res) => {
+        if(req.session.status === 1){
+            RecommendSchema.updateOne({_id:req.body._id}, {$set:{title:req.body.title, img:req.body.img, link:req.body.link}}).then((docs) => {res.send(docs);});
+        }else{
+            res.send({result:'error', comment:'권한없음'});
+        }
+    });
+    app.post('/admin/recommend/delete', (req, res) => {
+        if(req.session.status === 1){
+            RecommendSchema.deleteOne({_id:req.body._id}).then((docs) =>{res.send(docs)});
+        }else{
+            res.send({result:'error', comment:'권한없음'});
+        }
+    });
 };

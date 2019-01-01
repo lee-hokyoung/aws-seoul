@@ -559,7 +559,7 @@ module.exports = function(app, fs, Schema) {
         var searchText = req.body['query'], result = [];
         var search_list = _search_list.map(function(item){
             var obj = {};
-            obj[item] = {$regex:searchText};
+            obj[item] = {$regex:searchText, $options:'i'};
             return obj;
         });
         var cursor = Schema.find({}).or({$or:search_list}).where('@type').cursor();
@@ -956,7 +956,7 @@ module.exports = function(app, fs, Schema) {
             getFrequency();
             var search_list = _search_list.map(function(item){
                 var obj = {};
-                obj[item] = {$regex:searchText};
+                obj[item] = {$regex:searchText, $options:'i'};
                 return obj;
             });
             var cursor = Schema.find({}).or({$or:search_list}).where('@type').cursor();
@@ -1112,7 +1112,7 @@ module.exports = function(app, fs, Schema) {
                 title:req.body.title,
                 author:req.body.author,
                 content:req.body.content,
-                published_date:moment().format('LLLL')
+                published_date:moment().format('L')
             });
             newNoticeObj.save(function(err){
                 if(err) return res.status(500).send(err);

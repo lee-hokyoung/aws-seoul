@@ -1,8 +1,9 @@
+const _state = require('../router/state');
 const NoticeSchema = require('../model/notice');
 const RecommendSchema = require('../model/recommend');
-const comm = require('../router/state');
+require('moment/locale/ko');
 
-module.exports = function(app, fs, Schema)
+module.exports = function(app, fs, Schema, _commObj)
 {
     /*  -----------------------------------------------------------------------------------------
     *   admin Page 관련
@@ -29,10 +30,10 @@ module.exports = function(app, fs, Schema)
     app.get('/admin/data', (req, res) =>{
         if(req.session.status === 1){
             res.render('admin/data', {
-                menu:comm.menu,
-                left:__left,
-                facet_list:__facet_list,
-                collection:collection,
+                menu:_state.menu,
+                left:_commObj.__left,
+                facet_list:_commObj.__facet_list,
+                collection:_commObj.collection,
                 session:req.session
             });
         }else{
@@ -78,7 +79,7 @@ module.exports = function(app, fs, Schema)
                 title:req.body.title,
                 author:req.body.author,
                 content:req.body.content,
-                published_date:moment().format('LLLL')
+                published_date:moment().format('L')
             });
             newNoticeObj.save(function(err){
                 if(err) return res.status(500).send(err);

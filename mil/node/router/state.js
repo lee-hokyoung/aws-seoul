@@ -106,6 +106,6 @@ module.exports = {
     _objectProperty:_objectProperty,
     _datatypeProperty:_datatypeProperty,
     _default_title:_default_title,
-    _menu:menu,
+    menu:menu,
     _search_list:_search_list
 };

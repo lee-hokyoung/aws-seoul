@@ -81,6 +81,7 @@ $("#search").on("keyup", function() {
         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });
 });
+// 수정버튼 클릭 이벤트
 $('#modalUpdate').on('show.bs.modal', (e) => {
     let id = e.relatedTarget.dataset.store;
     let display_html = '', val;

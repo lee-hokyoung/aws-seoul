@@ -1,5 +1,63 @@
-  extends layout
+extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.content
+    div.container-fluid
+      div.row
+        div.col-md-4
+          div.card.card-user
+            div.image
+              img(src='/material/assets/img/faces/card-profile1-square.jpg' alt='...')
+            div.card-body
+              div.author
+                a(href='#')
+                  img.avatar.border-gray(src='/material/assets/img/faces/card-profile2-square.jpg' alt='...')
+                  h5.title Chet Faker
+                p.description @superEggSong
+
+  //div.row
+  //  div.col-lg-3.col-md-6.col-sm-6
+  //    div.card.card-stats
+  //      div.card-header.card-header-warning.card-header-icon
+  //        div.card-icon
+  //          i.material-icons content_copy
+  //        p.card-category Used Space
+  //        h3.card-title 49/50
+  //          small GB
+  //      div.card-footer
+  //        div.stats
+  //          i.material-icons.text-danger warning
+  //          a(href='#pablo') Get More...
+  //  div.col-lg-3.col-md-6.col-sm-6
+  //    div.card.card-stats
+  //      div.card-header.card-header-success.card-header-icon
+  //        div.card-icon
+  //          i.material-icons store
+  //        p.card-category Revenue
+  //        h3.card-title $34,232
+  //      div.card-footer
+  //        div.stats
+  //          i.material-icons date_range
+  //          | Last 24 Hours
+  //  div.col-lg-3.col-md-6.col-sm-6
+  //    div.card.card-stats
+  //      div.card-header.card-header-danger.card-header-icon
+  //        div.card-icon
+  //          i.material-icons info_outline
+  //        p.card-category Fixed Issues
+  //        h3.card-title 75
+  //      div.card-footer
+  //        div.stats
+  //          i.material-icons local_offer
+  //          | Tracked from Github
+  //  div.col-lg-3.col-md-6.col-sm-6
+  //    div.card.card-stats
+  //      div.card-header.card-header-info.card-header-icon
+  //        div.card-icon
+  //          i.fa.fa-twitter
+  //        p.card-category Followers
+  //        h3.card-title 245
+  //      div.card-footer
+  //        div.stats
+  //          i.material-icons update
+  //          | Just Updated

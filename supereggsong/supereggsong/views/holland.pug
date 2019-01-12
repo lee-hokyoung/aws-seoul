@@ -1,0 +1,136 @@
+extends layout
+
+block content
+  div.content
+    div.content
+      div.alert-with-icon.alert.alert-success
+        i.material-icons(data-notify='icon') group_work
+        span(data-notify='message') 활동 영역
+      div.row
+        each item in JSON.parse(q1)
+          div.col-lg-3.col-md-6.col-sm-6
+            div.card
+              div.card-body
+                p.h5.card-title #{item.question}
+              div.card-footer.mx-auto
+                div.btn-answer&attributes(item.attr)
+                  button.btn.btn-outline-success(score='H') 좋아함
+                  button.btn.btn-outline-success(score='M') 관심없음
+                  button.btn.btn-outline-success(score='Z') 싫어함
+      div.alert-with-icon.alert.alert-info
+        i.material-icons(data-notify='icon') extension
+        span(data-notify='message') 유능성 영역
+      div.row
+        each item in JSON.parse(q2)
+          div.col-lg-3.col-md-6.col-sm-6
+            div.card
+              div.card-body
+                p.h5.card-title #{item.question}
+              div.card-footer.mx-auto
+                div.btn-answer&attributes(item.attr)
+                  button.btn.btn-outline-info(score='H') 잘할수 있음
+                  button.btn.btn-outline-info(score='M') 중간정도
+                  button.btn.btn-outline-info(score='Z') 잘할수 없음
+      div.alert-with-icon.alert.alert-primary
+        i.material-icons(data-notify='icon') build
+        span(data-notify='message') 직업 영역
+      div.row
+        each item in JSON.parse(q3)
+          div.col-lg-3.col-md-6.col-sm-6
+            div.card
+              div.card-body
+                p.h5.card-title #{item.question}
+              div.card-footer.mx-auto
+                div.btn-answer&attributes(item.attr)
+                  button.btn.btn-outline-primary(score='H') 하고싶음
+                  button.btn.btn-outline-primary(score='M') 관심없음
+                  button.btn.btn-outline-primary(score='L') 하고싶지않음
+      div.alert-with-icon.alert.alert-danger
+        i.material-icons(data-notify='icon') face
+        span(data-notify='message') 일반 성향 영역
+      div.row
+        each item in JSON.parse(q4)
+          div.col-lg-3.col-md-6.col-sm-6
+            div.card
+              div.card-body
+                p.h5.card-title #{item.question}
+              div.card-footer.mx-auto
+                div.btn-answer&attributes(item.attr)
+                  button.btn.btn-outline-danger(score='M') 그렇다
+                  button.btn.btn-outline-danger(score='L') 아니다
+      div.row
+        div.col-lg-12.text-center
+          button.btn.btn-default.btn-danger#btn_submit_test 결과제출하기
+      div.row
+        div.col-12
+          div.card
+            div.card-header
+              h4.card-title 결과
+            div.card-body
+              div.table.table-responsive-sm
+                table.table
+                  thead.text-success
+                    tr
+                      td 유형
+                      td R
+                      td I
+                      td A
+                      td S
+                      td E
+                      td C
+                  tbody.text-info
+                    tr
+                      td 점수
+                      td
+                      td
+                      td
+                      td
+                      td
+                      td
+      div.row
+        div.col-md-5.col-xs-12
+          div.card
+            canvas#holland_chart(width='400' height='400')
+        div.col-md-7.col-xs-12
+          div.card
+            div.card-header
+              h5.card-title 각 특성별 설명
+            div.card-body
+              ul.list-gruop.list-group-flush.pl-1
+                li.list-group-item.list-group-item-primary Realistic(실재형) - 솔직하고, 성실하고, 검소하며, 신체적으로 활동적인 성격을 가지고 있습니다. 소박하고 말이 적으며 기계적인 적성이 높습니다.
+                li.list-group-item.list-group-item-success Investigative(탐구형) - 탐구심이 많고, 논리적, 분석적, 합리적인 성격을 가지고 있습니다. 지적 호기심이 많고 수학적, 과학적인 적성이 높습니다.
+                li.list-group-item.list-group-item-danger Artistic(예술형) - 상상력이 풍부하고 감수성이 풍부하며, 자유분방하고 개방적인 성격을 가지고 있습니다. 예술에 소질이 있고 창의적인 것을 창출해 나가는데 적성이 있습니다.
+                li.list-group-item.list-group-item-info Social(사회형) - 다른 사람에게 친절하고 이해심이 많으며, 남을 도와주려는 경향이 높고 봉사하고자 하는 마음이 큽니다. 대인관계 능력이 좋고 사람들을 좋아하는 성향을 가지고 있습니다.
+                li.list-group-item.list-group-item-warning Enterprising(기업형) - 지도력과 설득력을 가지고 있고, 열성적이고 경쟁적이며 야심이 있습니다. 외향적이고 통솔력을 가지고 있으며, 언어와 관련된 적성이 높습니다.
+                li.list-group-item.list-group-item-dark Conventional(관습형) - 책임감이 강하고 빈틈이 없으며, 행동을 할 때에 있어 조심스러운 면을 가지고 있습니다. 변화를 좋아하지 않고, 계획성이 있으며 사무 능력과 계산 능력이 높습니다.
+      div.row
+        div.col-12
+          div.card.alert.alert-success
+            div.card-header
+              h6.card-title 개인정보의 수집항목 및 이용목적
+              span 보유 및 이용기간 : (주)URBANHILL(이하 어반힐)과(와) 설문지 사이의 상호 네트워크가 유지되는 동안 사용되며, 어반힐 관계자외에 열람할 수 없도록 보호되며, 설문자가 요청할 시 개인정보는 폐기합니다. 개인정보 항목 : 성명, 연락처(핸드폰), 이메일 등. 이용목적 : 기초자료 통계 및 이벤트
+              div.input-group.mt-2
+                div.input-group-text.py-0.alert.alert-danger
+                  input.my-2#agree_personality(type='checkbox')
+                  label.mx-3.my-2.text-white(for='agree_personality') 동의합니다.
+            div.card-body
+              form(name='form_personal')
+                div.row
+                  div.col-md-4
+                    div.form-group
+                      label.text-dark 이름
+                      input.form-control(name='user_name' type='text')
+                  div.col-md-2
+                    div.form-group
+                      label.text-dark 나이
+                      input.form-control(name='user_age' type='number')
+                  div.col-md-6
+                    div.form-group
+                      label.text-dark 연락처
+                      input.form-control(name='user_phone' type='phone')
+                div.row
+                  div.col.text-center
+                    button.btn.btn-warning.text-dark#btn_personal(type='button') 제출하기
+block append_js
+  script(src='/js/chartjs.js')
+  script(src='/js/holland.js')

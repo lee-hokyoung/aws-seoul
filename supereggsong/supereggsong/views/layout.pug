@@ -1,7 +1,129 @@
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset='UTF-8')
+    link(rel='apple-touch-icon' href='/material/assets/img/apple-icon.png' sizes='76x76')
+    link(rel='icon' type='image/png' sizes='96x96' href='/material/assets/img/favicon.png')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge, chrome=1')
+    meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport')
+
+    link(href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons' rel='stylesheet' type='text/css')
+    link(href='https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css' rel='stylesheet')
+
+    link(href='/material/assets/css/material-dashboard.css' rel='stylesheet')
+    link(href='/material/assets/demo/demo.css' rel='stylesheet')
+
+    title Holland Test
   body
-    block content
+    div.wrapper
+      // side bar
+      div.sidebar(data-color='purple' data-background-color='dark' data-image='/material/assets/img/sidebar-1.jpg')
+        div.logo
+          a.simple-text.logo-normal(href='/') SuperEggSong
+        div.sidebar-wrapper
+          ul.nav
+            li.nav-item.active
+              a.nav-link(href='/holland')
+                i.material-icons dashboard
+                p Holland 검사
+
+      div.main-panel
+        // nav bar
+        nav.navbar.navbar-expand-lg.navbar-absolute.fixed-top.navbar-transparent
+          div.container-fluid
+            div.navbar-wrapper
+              a.navbar-brand(href='#') Holland Test
+            button.navbar-toggler(type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation")
+              span.sr-only Toggle navigation
+              span.navbar-toggler-icon.icon-bar
+              span.navbar-toggler-icon.icon-bar
+              span.navbar-toggler-icon.icon-bar
+            div.collapse.navbar-collapse.justify-content-end
+              form.navbar-form
+                div.input-group.no-border
+                  input.form-control(type='text' placeholder='Search...')
+                  button.btn.btn-white.btn-round.btn-just-icon
+                    i.material-icons search
+                    div.ripple-container
+              ul.navbar-nav
+                li.nav-item
+                  a.nav-link(href='#')
+                    i.material-icons dashboard
+                    p.d-lg-none.d-md-block Stats
+                li.nav-item.dropdown
+                  a.nav-link#navbarDropdownMenuLink(href='#' data-toggle='dropdown' aria-haspopup="true" aria-expanded="false")
+                    i.material-icons notifications
+                    span.notification 5
+                    p.d-lg-none.d-md-block Some Actions
+                  div.dropdown-menu.dropdown-menu-right(aria-labelledby='navbarDropdownMenuLink')
+                    a.dropdown-item(href='#') Mike John responded to your emain
+                    a.dropdown-item(href='#') 2
+                    a.dropdown-item(href='#') 3
+                    a.dropdown-item(href='#') 4
+                    a.dropdown-item(href='#') 5
+                li.nav-item
+                  a.nav-link(href='#')
+                    i.material-icons person
+                    p.d-lg-none.d-md-block Account
+        // end nav bar
+        block content
+        footer.footer
+          div.container-fluid
+            nav.float-left
+              ul
+                li
+                  a(href='#') somewhere
+                li
+                  a(href='#') min
+                li
+                  a(href='#') About Us
+                li
+                  a(href='#') Instagram
+            div.copyright.float-right &copy;
+              script.
+                document.write(new Date().getFullYear())
+              |  made with
+              i.material-icons  favorite
+              |  by
+              a(href='#')  superEggSong
+              |  for a better web.
+    //.container
+    //  .profile-wrap
+    //    .profile
+    //      if user && user.id
+    //        .user-name= '안녕하세요! ' + user.nick + '님'
+    //        .half
+    //          div 팔로잉
+    //          .count.following-count= user.Followings && user.Followings.length || 0
+    //        .half
+    //          div 팔로워
+    //          .count.follower-count= user.Followers && user.Followers.length || 0
+    //        input#my-id(type='hidden' value=user.id)
+    //        a#my-profile.btn(href='/profile') 내 프로필
+    //        a#logout.btn(href='/auth/logout') 로그아웃
+    //      else
+    //        form#login-form(action='/auth/login' method='post')
+    //          .input-group
+    //            label(for='email') 이메일
+    //            input#email(type='email' name='email' required autofocus)
+    //          .input-group
+    //            label(for='password') 비밀번호
+    //            input#password(type='password' name='password' required)
+    //          if loginError
+    //            .error-message= loginError
+    //          a#join.btn(href='/join') 회원가입
+    //          button#login.btn(type='submit') 로그인
+    //          a#kakao.btn(href='/auth/kakao') 카카오톡
+    //    footer
+    //      | Made by&nbsp;
+    //      a(href='https://www.zerocho.com' target='_blank') ZeroCho
+script(src="/material/assets/js/core/jquery.min.js" type="text/javascript")
+script(src="/material/assets/js/core/popper.min.js" type="text/javascript")
+script(src="/material/assets/js/core/bootstrap-material-design.min.js" type="text/javascript")
+script(src="/material/assets/js/plugins/perfect-scrollbar.jquery.min.js")
+script(src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE")
+script(src="/material/assets/js/plugins/chartist.min.js")
+script(src="/material/assets/js/plugins/bootstrap-notify.js")
+script(src="/material/assets/js/material-dashboard.min.js?v=2.1.0" type="text/javascript")
+script(src="/material/assets/demo/demo.js")
+block append_js

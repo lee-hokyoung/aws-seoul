@@ -1,0 +1,29 @@
+extends admin_layout
+block content
+	style.
+		.input-group label, .img_wrap {
+			width: 200px;
+			font-weight: bold;
+		}
+		.img_wrap{
+			text-align: center;
+		}
+		#data-purchase-list input {
+			width: 15%;
+		}
+	.input-group.mt-3
+		label.text-zhupao.my-auto.text-zhupao Forget Password?
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='forgot_password', placeholder='URL (http://www.zhupao.co.kr/)')
+	.input-group.mt-3
+		.img_wrap
+			img(src='/assets/images/request_report.jpg', alt='', width='100')
+			p.text-zhupao.m-0 REQUEST
+			p.text-zhupao REPORT
+		input.text-center.form-control.text-secondary.font-italic.my-auto(type='text', name='request_report', placeholder='URL (http://www.zhupao.co.kr/)')
+	.input-group.mt-3
+		.img_wrap
+			img(src='/assets/images/request_data.jpg', alt='', width='100')
+			p.text-zhupao.m-0 REQUEST
+			p.text-zhupao DATA
+		input.text-center.form-control.text-secondary.font-italic.my-auto(type='text', name='request_report', placeholder='URL (http://www.zhupao.co.kr/)')
+	block append_Js

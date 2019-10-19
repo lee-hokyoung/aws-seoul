@@ -1,0 +1,59 @@
+extends layout
+block content
+	.container
+		.bg-gradient-zhupao
+			a(href='/')
+				img(src='/assets/images/pegasus_logo.jpg', alt='logo', style='width:250px;')
+		.w-100.bg-gradient-primary.mb-3
+			h5.m-0.text-white.p-2
+				a.text-white(href='/') Home
+				| &nbsp; > &nbsp;
+				a.text-white(href='/list/' + cate) #{cate}
+		.row
+			.col-3
+				.p-2(style='border:3px solid #aaa;')
+					h5.mb-5.font-weight-bold More filters
+					.d-flex.justify-content-between.my-1
+						label.font-weight-bold.text-primary.text-right Category
+						select(style='width:150px')
+							option(value='Hair salon') Hair Salon
+							option(value='SPA') SPA
+							option(value='Nail Shop') Nail Shop
+					.d-flex.justify-content-between.my-1
+						label.font-weight-bold.text-primary.text-right Region
+						select(style='width:150px')
+							option(value='henen') henen
+							option(value='beijing') beijing
+					.d-flex.justify-content-between.my-1
+						label.font-weight-bold.text-primary.text-right Object
+						select(style='width:150px')
+							option(value='market') market
+							option(value='company') company
+			.col-9
+				.p-2(style='border:3px solid #aaa;')
+					h5.mb-5.font-weight-bold Search Words
+					.input-group.mx-3.m-auto
+						input.form-control(type='text')
+						.input-group-prepend
+							button.btn.btn-primary Search
+					h5 Results
+					select
+						option(value=10) 10
+						option(value=20 selected=true) 20
+						option(value=30) 30
+						option(value=50) 50
+						option(value=100) 100
+				.list-group
+					each item in list
+						//.row.my-4
+						a.list-group.list-group-item-action.flex-row.my-1.py-2(href='/detail/' + item.id, style='min-height:1px;')
+							.col-2.text-center
+								img.p-1(src='/assets/images/' + item.chart + '-chart.png', alt='', style='width:70%;')
+							.col-10.d-flex.flex-column.justify-content-around
+								h5 #{item.title}
+								.py-2
+									span.font-weight-bold.text-secondary #{item.sub_cate}
+									span.text-secondary &nbsp; | &nbsp;
+									span.font-weight-bold.text-secondary #{item.region}
+									span.text-secondary &nbsp; | &nbsp;
+									span.font-weight-bold.text-secondary #{item.object}

@@ -1,0 +1,39 @@
+extends admin_layout
+block content
+	style.
+		#user_table table td, #user_table table th{
+			white-space: nowrap;
+			text-align: center;
+		}
+		#user_table .title {
+			white-space: normal !important;
+		}
+	#user_table.table
+		table.table-responsive.table-bordered.table-hover
+			thead.bg-secondary.text-white
+				tr
+					th 자료번호
+					th 제목
+					th 단위
+					th Category
+					th Region
+					th Object
+					th 업데이트/삭제
+					th 상태
+					th 업데이트 일자
+			tbody
+				each item in data
+					tr()
+						td #{item.id}
+						td.title
+							a(href='/admin/data/read/' + item.id) #{item.title}
+						td #{item.unit}
+						td #{item.category}
+						td #{item.region}
+						td #{item.obj}
+						td
+							button.btn.btn-primary.d-block.my-1.mx-auto 업데이트
+							button.btn.btn-danger.d-block.my-1.mx-auto 삭제
+						td #{item.status === 1 ? '제공' : item.status === 2 ? '중지' : '삭제'}
+						td #{item.updated_data}
+	block append_Js

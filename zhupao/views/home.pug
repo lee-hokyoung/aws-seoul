@@ -1,0 +1,18 @@
+extends layout
+block content
+	.container
+		.bg-gradient-zhupao
+			.container.text-center
+				h1.text-white.font-weight-bold.py-5.m-0 CHINA INDUSTRY OVERVIEW
+				h4.text-secondary.py-3.m-0 ALL INDUSTRIES AND RELATED SUB-INDUSTRIES
+		.w-100.bg-gradient-primary
+			.container
+				h5.m-0.text-white.py-2 Home
+		.container
+			.row
+				each item in list
+					.col-4.mt-3
+						.p-3(style='border:3px solid #aaa')
+							h5.pb-3 #{item.cate}
+							each sub in item.sub_cate
+								a.d-block.font-weight-bold(href='/list/' + item.cate.replace(" ", "_") + '?sub_cate=' +  sub.replace(" ","_")) #{sub}

@@ -1,0 +1,103 @@
+extends layout
+block content
+	style.
+		.icon-img{max-width:30px; width:100%;}
+	.container
+		.bg-gradient-zhupao
+			a(href='/')
+				img(src='/assets/images/pegasus_logo.jpg', alt='logo', style='width:250px;')
+		.w-100.bg-gradient-primary.mb-3
+			h5.m-0.text-white.p-2
+				a.text-white(href='/') Home
+				| &nbsp; > &nbsp;
+				a.text-white(href='/list/' + data.cate) #{data.cate}
+				| &nbsp; > &nbsp;
+				a.text-white(href='/list/' + data.cate) #{data.sub_cate}
+		.row
+			.col-8
+				h4 #{data.title}
+				.card
+					.card-body.shadow
+						canvas#chart(width='100%', height='50')
+				h6.text-right.text-zhupao.mt-3 Data No. #{data.dataNo}
+			.col-4.font-weight-bold
+				.d-flex.mb-2
+					span.px-3.py-2(style='flex:1; border-bottom:4px solid #007bff') DOWNLOAD
+					div.border-bottom(style='flex:2')
+				.d-flex
+					.border
+						button.btn.d-flex.justify-content-between.p-2
+							img.icon-img(src='/assets/svgs/png.svg')
+							span PNG
+					.border.ml-2
+						button.btn.d-flex.justify-content-between.p-2
+							img.icon-img(src='/assets/svgs/ppt.svg')
+							span PNG
+					.border.ml-2
+						button.btn.d-flex.justify-content-between.p-2
+							img.icon-img(src='/assets/svgs/xls.svg')
+							span PNG
+					.border.ml-2
+						button.btn.d-flex.justify-content-between.p-2
+							img.icon-img(src='/assets/svgs/pdf.svg')
+							span PNG
+				ul#pills-tab.nav.nav-pills.mt-4.mb-3.pb-2.border-bottom(role="tablist")
+					li.nav-item
+						a#pills-home-tab.nav-link.active.rounded-0.border.border-primary.py-1(data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true") DESCRIPTION
+					li.nav-item
+						a#pills-profile-tab.nav-link.rounded-0.border.border-primary.ml-1.py-1(data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false") SOURCE
+				#pills-tabContent.tab-content
+					#pills-home.tab-pane.fade.show.active(role="tabpanel" aria-labelledby="pills-home-tab")
+						| 중국 허난성 푸양시의 헤어살롱 업체는 2105년 이후로, 지속적인 성장을 보이고 있으며, 전년대비 15.3%의 성장률을 나타내고 있다.
+					#pills-profile.tab-pane.fade(role="tabpanel" aria-labelledby="pills-profile-tab")
+						| www.zhupao.co.kr 홈페이지 내 'ABC' 보고서 페이지 21쪽에서 발췌
+
+
+
+
+
+block append_js
+	script(src='/bootstrap/js/dist/util.js', type='text/javascript')
+	script(src='/chart.js/Chart.js')
+	script.
+		let d = !{JSON.stringify(data.chart)};
+		let x = d.data.map(function(v){return v.x});
+		let y = d.data.map(function(v){return v.y});
+		console.log(d, x, y);
+		let ctx = document.getElementById('chart');
+		let chart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: x,
+				datasets: [{
+					label: '# of Votes',
+					data: y,
+					backgroundColor: [
+						'rgba(255, 99, 132, 0.2)',
+						'rgba(54, 162, 235, 0.2)',
+						'rgba(255, 206, 86, 0.2)',
+						'rgba(75, 192, 192, 0.2)',
+						'rgba(153, 102, 255, 0.2)',
+						'rgba(255, 159, 64, 0.2)'
+					],
+					borderColor: [
+						'rgba(255, 99, 132, 1)',
+						'rgba(54, 162, 235, 1)',
+						'rgba(255, 206, 86, 1)',
+						'rgba(75, 192, 192, 1)',
+						'rgba(153, 102, 255, 1)',
+						'rgba(255, 159, 64, 1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
+				}
+			}
+		});

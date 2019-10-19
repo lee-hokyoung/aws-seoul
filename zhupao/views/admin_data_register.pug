@@ -1,0 +1,106 @@
+extends admin_layout
+block content
+	style.
+		.input-group label{width:200px; font-weight:bold;}
+		#data-purchase-list input{width:15%;}
+	.input-group.mt-3
+		label.text-zhupao.my-auto 제목
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='user_no', placeholder='중국 허난성 지역 내 헤어 미용실 수 2019')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 단위
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='user_corp', placeholder='%, 명, 개...')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 그래프유형
+		.row(style='flex:1')
+			.col-3
+				.d-flex.justify-content-between
+					img(src='/assets/images/bar-chart.png', alt='바차트', style='width:50%')
+					input.form-control(type='checkbox', name='bar_chart')
+			.col-3
+				.d-flex.justify-content-between
+					img(src='/assets/images/bar-chart.png', alt='바차트 가로', style='width:50%')
+					input.form-control(type='checkbox')
+			.col-3
+				.d-flex.justify-content-between
+					img(src='/assets/images/pie-chart.png', alt='파이차트', style='width:50%')
+					input.form-control(type='checkbox')
+			.col-3
+				.d-flex.justify-content-between
+					img(src='/assets/images/line-chart.png', alt='선형그래프', style='width:50%')
+					input.form-control(type='checkbox')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 내용(데이터)
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='manager_tel', placeholder='010-5531-2559')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 자료번호
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='data_no', placeholder='A-y03312')
+	.input-group.mt-3
+		label.text-zhupao.mb-auto Category
+		.row(style='flex:1')
+			each item, idx in category
+				.col-4.mb-3(class=idx % 3 > 0 ? 'pl-0' : '')
+					#data-purchase-list.border.p-1
+						h5.mb-3 #{item.cate}
+						each sub, sub_idx in item.sub_cate
+							.d-flex.justify-content-between
+								label(for='category_' + idx + '_' +  sub_idx).my-auto #{sub}
+								input.form-control(id='category_' + idx + '_' + sub_idx, type='checkbox', name=sub.replace(' ', '_'), style='width:30px;')
+	.input-group.mt-3
+		label.text-zhupao.mb-auto Region
+		.row.border.m-0(style='flex:1')
+			each item, idx in province
+				.col-4
+					.d-flex.justify-content-between
+						label.my-auto(for='province_' + idx) #{item.name}
+						input.form-control(id='province_' + idx, type='checkbox', style='width:30px;')
+
+	.input-group.mt-3
+		label.text-zhupao.my-auto
+		.row.m-0.border(style='flex:1')
+			each item, idx in city
+				.col-4
+					.d-flex.justify-content-between
+						label.my-auto(for='city_' + idx) #{item.name}
+						input.form-control(id='city_' + idx, type='checkbox', style='width:30px;')
+	.input-group.mt-3
+		label.text-zhupao.my-auto Object
+		.row.m-0.border(style='flex:1')
+			each item, idx in obj
+				.col-3
+					label.my-auto(for='object_' + idx) #{item.name}
+					input.form-control(id='object_' + idx, type='checkbox', style='width:30px;')
+	.input-group.mt-3
+		label.text-zhupao.my-auto DESCRIPTION
+		textarea.form-control(name='description', rows=3, style='resize:none;')
+	.input-group.mt-3
+		label.text-zhupao.my-auto SOURCE
+		input.form-control(type='text', name='source')
+	.input-group.mt-3
+		label.text-zhupao.my-auto ADD
+		.d-flex.justify-content-between(style='flex:1')
+			div(style='flex:1')
+				.border.d-flex.justify-content-between.mb-2
+					.d-flex.justify-content-center(style='flex:1')
+						img(src='/assets/svgs/pdf.svg', width='30%')
+						span PDF
+					input.form-control-file(type='file', name='add_pdf', style="flex:4")
+				.border.d-flex.justify-content-between.mb-2
+					.d-flex.justify-content-center(style='flex:1')
+						img(src='/assets/svgs/xls.svg', width='30%')
+						span XLS
+					input.form-control-file(type='file', name='add_xls', style='flex:4')
+				.border.d-flex.justify-content-between.mb-2
+					.d-flex.justify-content-center(style='flex:1')
+						img(src='/assets/svgs/ppt.svg', width='30%')
+						span PPT
+					input.form-control-file(type='file', name='add_ppt', style='flex:4')
+				.border.d-flex.justify-content-between.mb-2
+					.d-flex.justify-content-center(style='flex:1')
+						img(src='/assets/svgs/png.svg', width='30%')
+						span PNG
+					input.form-control-file(type='file', name='add_png', style='flex:4')
+			div.mt-auto(style='flex:1')
+				button.w-100.btn.btn-zhupao 등록
+
+
+	block append_Js

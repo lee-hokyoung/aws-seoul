@@ -1,0 +1,43 @@
+extends admin_layout
+block content
+	style.
+		#user_table table td, #user_table table th{
+			white-space: nowrap;
+			text-align: center;
+		}
+
+	#user_table.table
+		table.table-responsive.table-bordered
+			thead.bg-secondary.text-white
+				tr
+					th 고객번호
+					th 기업명
+					th 담당자
+					th 연락처
+					th 이메일
+					th 아이디(ID)
+					th 비밀번호(PW)
+					th 데이터 구매목록
+					th 중지/삭제
+					th 상태
+			tbody
+				each item in users
+					tr
+						td #{item.user_no}
+						td #{item.user_corp}
+						td #{item.manager_name}
+						td #{item.manager_tel}
+						td #{item.email}
+						td #{item.user_id}
+						td #{item.user_pw}
+						td
+							each pur in item.purchase_list
+								| #{pur}
+								br
+						td
+							select
+								option(value=2) 중지
+								option(value=1) 제공
+								option(value=9) 삭제
+						td #{item.status===1?'제공':item.status===2?'중지':'삭제'}
+	block append_Js

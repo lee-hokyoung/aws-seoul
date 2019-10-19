@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f6bf1005-22db-49a1-bd16-81c40b7c723d" name="zhupao" url="http://15.164.164.88">
+        <fileTransfer host="15.164.164.88" port="22" privateKey="D:\OneDrive\key_pair\aws-seoul-zhupao\zhupao.pem" rootFolder="/home/ubuntu" accessType="SFTP" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

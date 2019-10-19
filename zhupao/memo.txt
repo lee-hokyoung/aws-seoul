@@ -1,0 +1,4 @@
+scss 적용 명령어
+
+sudo node-sass [option] <입력파일경로> <출력파일경로>
+sudo node-sass public/bootstrap/scss/bootstrap.scss public/bootstrap/dist/css/bootstrap.css

@@ -1,0 +1,40 @@
+extends admin_layout
+block content
+	style.
+		.input-group label{width:200px; font-weight:bold;}
+		#data-purchase-list input{width:15%;}
+	.input-group.mt-3
+		label.text-zhupao.my-auto 고객번호
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='user_no', placeholder='A0001')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 기업명
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='user_corp', placeholder='주파오컨설팅')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 담당자
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='manager_name', placeholder='정우성')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 연락처
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='manager_tel', placeholder='010-5531-2559')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 이메일
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='email', placeholder='jws2559!@zhupao.co.kr')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 아이디(ID)
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='user_id', placeholder='6자리 이상')
+	.input-group.mt-3
+		label.text-zhupao.my-auto 비밀번호(PW)
+		input.text-center.form-control.text-secondary.font-italic(type='text', name='user_pw', placeholder='영어, 숫자, 특수문자 포함 5자리 이상')
+
+	.input-group.mt-3
+		label.text-zhupao.my-auto 데이터 구매 목록
+		.row(style='flex:1')
+			each item, idx in purchase
+				.col-4.mb-3(class=idx%3>0?'pl-0':'')
+					#data-purchase-list.border.p-1
+						h5.mb-3 #{item.cate}
+						each sub in item.sub_cate
+							.d-flex.justify-content-between
+								label.my-auto #{sub}
+								input.form-control(type='checkbox', name=sub.replace(' ', '_'))
+
+	block append_Js

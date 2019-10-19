@@ -1,0 +1,39 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='utf-8')
+		//link(rel='apple-touch-icon', sizes='76x76', href='./assets/img/apple-icon.png')
+		//link(rel='icon', type='image/png', href='./assets/img/favicon.png')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
+		meta(content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no')
+		link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700,200', rel='stylesheet')
+		link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.7.1/css/all.css', integrity='sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr', crossorigin='anonymous')
+		link(href='/bootstrap/dist/css/bootstrap.css', rel='stylesheet')
+	body
+		.container
+			.bg-gradient-zhupao
+				a(href='/')
+					img(src='/assets/images/pegasus_logo.jpg', alt='logo', style='width:250px;')
+			.w-100.bg-gradient-primary.mb-3
+				h5.m-0.text-white.p-2
+					a.text-white(href='/admin/user/register') ADMINISTRATOR
+			.row
+				.col-2
+					ul.list-group.border
+						.list-group.list-group-item-action.px-2.py-3(class=active==='user_register'?'font-weight-bold':'')
+							a(href='/admin/user/register') ID/PW Register
+						.list-group.list-group-item-action.px-2.py-3(class=active==='user_list'?'font-weight-bold':'')
+							a(href='/admin/user/list') ID/PW Manage
+						.list-group.list-group-item-action.px-2.py-3(class=active==='data_register'?'font-weight-bold':'')
+							a(href='/admin/data/register') Data Register
+						.list-group.list-group-item-action.px-2.py-3(class=active==='data_list'?'font-weight-bold':'')
+							a(href='/admin/data/list') Data Manage
+						.list-group.list-group-item-action.px-2.py-3(class=active==='config'?'font-weight-bold':'')
+							a(href='/admin/config') Set-up
+				.col-10
+					block content
+		footer.footer.bg-dark
+		script(src='https://code.jquery.com/jquery-3.4.1.min.js', type='text/javascript', integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=", crossorigin="anonymous")
+		script(src='/bootstrap/dist/js/bootstrap.min.js', type='text/javascript')
+		block append_js
+

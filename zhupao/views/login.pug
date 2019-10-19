@@ -1,0 +1,16 @@
+extends layout
+block content
+	.w-100.bg-gradient-zhupao
+		.d-flex.align-items-center.min-vh-100
+			.container
+				.text-center.my-3
+					h2.text-white Great China Region Market Data Portal
+					h5.text-secondary Market data and Studies from more than 23,400 Sources
+				.mx-auto.w-50.mt-5
+					input.input-group.p-3.rounded.mb-2(type='text', placeholder='Login/user id')
+					input.input-group.p-3.rounded(type='password' placeholder='Password')
+				.d-flex.justify-content-between.mx-auto.w-50.py-3
+					div(style='flex:1')
+					a.text-white.btn.btn-primary(style='flex:1', href='/') Login
+					span.text-white.text-right(style='flex:1') Forget Password ?
+
